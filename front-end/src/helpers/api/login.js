@@ -1,11 +1,8 @@
 const { default: axios } = require('axios');
 
-axios.defaults.baseURL = 'localhost:3001';
-
-const getUserInfo = (email, password) => axios.post('/login', { email, password })
-  .then((response) => (response))
-  .catch((error) => {
-    console.log(error);
-  });
+const getUserInfo = async (email, password) => {
+  const { data } = await axios.post('http://localhost:3001/login', { email, password });
+  return data;
+};
 
 module.exports = { getUserInfo };
