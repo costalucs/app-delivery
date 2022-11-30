@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 
-export default function Input({ datatestid, label, id, type, placeHolder }) {
+export default function Input({
+  datatestid, label, id, type, placeHolder, handle, name, value }) {
   return (
     <label htmlFor={ id }>
       {label}
@@ -9,6 +10,9 @@ export default function Input({ datatestid, label, id, type, placeHolder }) {
         data-testid={ datatestid }
         placeholder={ placeHolder }
         type={ type }
+        onChange={ handle }
+        name={ name }
+        value={ value }
       />
     </label>
   );
