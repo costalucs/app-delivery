@@ -18,5 +18,4 @@ Button.propTypes = {
   NamedNodeMap: PropTypes.string,
   placeHolder: PropTypes.string,
   type: PropTypes.string,
-  state: PropTypes.bool,
 }.isRequired;
