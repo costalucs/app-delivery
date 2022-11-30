@@ -9,7 +9,6 @@ const login = async (req, res) => {
   const user = await UserService.getOne(email, passwordMd5)
   if (!user) return res.status(404).json({message: "Not found"})
   const token = sign(user.dataValues, jwtSecret)
-  console.log(token);
   return res.status(200).json({...user.dataValues, token})
 }
 
