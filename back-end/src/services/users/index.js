@@ -12,7 +12,8 @@ const getOne = async (email, password) => {
       [Op.and]: [
         { email }, { password }
       ]
-    }
+    },
+    attributes: { exclude: ['password'] },
   })
   return user
 }
