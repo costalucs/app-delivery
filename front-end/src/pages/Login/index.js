@@ -12,8 +12,9 @@ function Login() {
   const location = pathname === 'login' ? 'login' : 'register';
 
   const handleLogin = async () => {
-    console.log('clicou');
     const userInfo = await getUserInfo(email, password);
+    // useLocalStorage
+    // gerar jwt
     console.log(userInfo);
   };
 
