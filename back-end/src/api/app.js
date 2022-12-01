@@ -14,5 +14,6 @@ app.use(express.static('public'));
 app.get('/products', productsController.getAll);
 app.post('/login', validateLogin, loginController.login);
 app.post('/create', userController.createUser);
+app.get('/me', userController.getMe);
 
 module.exports = app;
