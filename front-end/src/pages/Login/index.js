@@ -1,21 +1,30 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+
 import { getUserInfo } from '../../helpers/api/login';
+import { registerUser } from '../../helpers/api/registerUser';
 
 function Login() {
   const { pathname } = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
-  const location = pathname === 'login' ? 'login' : 'register';
+  const location = pathname === '/login' ? 'login' : 'register';
 
   const handleLogin = async () => {
     const userInfo = await getUserInfo(email, password);
-    // useLocalStorage
+    // use local Storage
     // gerar jwt
     console.log(userInfo);
+  };
+
+  const handleSignUp = async () => {
+    const whatever = await registerUser({ email, password, name: userName });
+
+    console.log(whatever);
   };
 
   const buttonOptions = location.pathname === '/login'
@@ -30,7 +39,7 @@ function Login() {
       name: 'Cadastrar',
       type: 'submit',
       state: false,
-      handle: handleLogin,
+      handle: handleSignUp,
     };
 
   const handleChange = ({ target: { value, name } }) => {
