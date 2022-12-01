@@ -27,7 +27,7 @@ function Login() {
     console.log(whatever);
   };
 
-  const buttonOptions = location.pathname === '/login'
+  const buttonOptions = location === 'login'
     ? {
       datatestid: 'common_login__button-login',
       name: 'Login',
