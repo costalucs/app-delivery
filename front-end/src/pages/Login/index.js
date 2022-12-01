@@ -4,8 +4,7 @@ import { useLocation } from 'react-router-dom';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
-import { getUserInfo } from '../../helpers/api/login';
-import { registerUser } from '../../helpers/api/registerUser';
+import { getUserInfo, registerUser } from '../../helpers/api/users';
 
 function Login() {
   const { pathname } = useLocation();
