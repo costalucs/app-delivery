@@ -9,4 +9,18 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser };
+const getMe = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+    if (!authorization) return res.status(400).json({ message: 'Token required' });
+    const data = verify(authorization);
+    if (data) {
+      const user = await UserService.findById(data.id);
+      return user;
+    }
+  } catch(e) {
+    console.log('shiuld treat errors');
+  }
+} 
+
+module.exports = { createUser, getMe };

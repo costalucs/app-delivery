@@ -14,9 +14,14 @@ const getOne = async (email, password) => {
   return user;
 };
 
+const findById = async (id) => {
+  const user = await  model.users.findByPk(id, { attributes: { exclude: ['password'] } });
+  return user;
+};
+
 const create = async ({ name, email, password, role }) => {
   const user = await model.users.create({ name, email, password, role });
   return user;
 };
 
-module.exports = { getAll, getOne, create };
+module.exports = { getAll, getOne, create, findById };
