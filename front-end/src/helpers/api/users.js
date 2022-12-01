@@ -12,13 +12,14 @@ export const login = async (email, password) => {
   }
 };
 
-// export const getMe = async () => {
-//   try {
-
-//   } catch (e) {
-//     alert(e.message);
-//   }
-// }
+export const getMe = async (token) => {
+  try {
+    const user = await api.get('/me', {}, { headers: { authorization: { token } } });
+    return user;
+  } catch (e) {
+    alert(e.message);
+  }
+};
 
 export const registerUser = async (user) => {
   try {
