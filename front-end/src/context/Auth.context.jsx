@@ -1,6 +1,5 @@
 import React, {
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -15,7 +14,7 @@ function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
 
-  const login = useCallback(async ({ email, password }) => {
+  const login = async ({ email, password }) => {
     try {
       const returnedToken = await logMe({ email, password });
       localStorage.setItem('token', returnedToken.token);
@@ -27,13 +26,13 @@ function AuthProvider({ children }) {
     } catch (e) {
       console.log(e);
     }
-  }, [token, user]);
+  };
 
   function logout() {
-    setUser(null);
-    setToken(null);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    setUser(null);
+    setToken(null);
   }
 
   const value = useMemo(() => ({
@@ -41,13 +40,17 @@ function AuthProvider({ children }) {
     logout,
     user,
     token,
-  }), [user, token, login]);
+  }), [user, token]);
 
   useEffect(() => {
     const localToken = localStorage.getItem('token');
     if (localToken) {
       setToken(localToken);
-      getMe(localToken).then((data) => setUser(data)).catch((e) => console.log(e));
+
+      getMe(localToken).then((data) => {
+        setUser(data);
+      }).catch((e) => console.log(e));
+
       localStorage.setItem('user', JSON.stringify(user));
     }
   }, []);
@@ -59,7 +62,11 @@ function AuthProvider({ children }) {
   );
 }
 
-export const useUser = () => useContext(AuthContext);
+export const useUser = () => useContext(AuthContext).user;
+export const useLogin = () => {
+  const { login } = useContext(AuthContext);
+  return (user) => login(user);
+};
 
 AuthProvider.propTypes = {
   children: PropTypes.element.isRequired,
