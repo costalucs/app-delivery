@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Header from '../../components/Header';
 import ProductCard from '../../components/ProductCard';
 import { getProducts } from '../../helpers/api/getProducts';
 
@@ -10,8 +11,12 @@ export default function Products() {
   }, []);
 
   return (
-    <div>
-      {items?.map((i, index) => <ProductCard key={ index } { ...i } />)}
-    </div>
+    <>
+      <Header />
+      <div>
+        {items?.map((i, index) => <ProductCard key={ index } { ...i } />)}
+      </div>
+
+    </>
   );
 }
