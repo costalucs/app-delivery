@@ -26,7 +26,6 @@ function AuthProvider({ children }) {
       setUser({ id, name, role });
     } catch (e) {
       console.log(e);
-      alert(e.message);
     }
   }, [token, user]);
 
