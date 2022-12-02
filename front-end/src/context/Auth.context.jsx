@@ -8,7 +8,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { login as logMe, getMe } from '../helpers/api/users';
 
-const AuthContext = createContext({ user: null });
+const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
@@ -16,14 +16,16 @@ function AuthProvider({ children }) {
 
   async function signIn(email, password) {
     try {
-      const { token: returnedToken } = await logMe({ email, password });
-      localStorage.setItem('token', returnedToken);
-      setToken(returnedToken);
+      const returnedToken = await logMe({ email, password });
+      console.log(returnedToken);
+      localStorage.setItem('token', returnedToken.token);
+      setToken(returnedToken.token);
       const { name, role, id } = await getMe(token);
       localStorage.setItem('user', JSON.stringify({ id, name, role }));
       setUser({ id, name, role });
     } catch (e) {
-      alert(e);
+      console.log(e);
+      alert(e.message);
     }
   }
 

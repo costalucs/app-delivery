@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-
-import { getUserInfo, registerUser } from '../../helpers/api/users';
+import { useUser } from '../../context/Auth.context';
+import { registerUser } from '../../helpers/api/users';
 
 function Login() {
   const { pathname } = useLocation();
@@ -13,12 +13,7 @@ function Login() {
   const [userName, setUserName] = useState('');
   const location = pathname === '/login' ? 'login' : 'register';
 
-  const handleLogin = async () => {
-    const userInfo = await getUserInfo(email, password);
-    // use local Storage
-    // gerar jwt
-    console.log(userInfo);
-  };
+  const user = useUser();
 
   const handleSignUp = async () => {
     const whatever = await registerUser({ email, password, name: userName });
@@ -32,7 +27,7 @@ function Login() {
       name: 'Login',
       type: 'submit',
       state: false,
-      handle: handleLogin,
+      handle: () => user.signIn({ email, password }),
     } : {
       datatestid: 'common_login__button-resgister',
       name: 'Cadastrar',
