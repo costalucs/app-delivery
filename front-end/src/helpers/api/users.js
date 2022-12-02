@@ -7,8 +7,9 @@ export const login = async (credentials) => {
     if (error) throw error;
     const { data: { token } } = await api.post('login', credentials);
     return token;
-  } catch (e) {
-    alert(e.message);
+  } catch (error) {
+    console.log(error);
+    return { error };
   }
 };
 
@@ -16,9 +17,9 @@ export const getMe = async (token) => {
   try {
     const { data } = await api.get('/me', { headers: { authorization: { token } } });
     return data;
-  } catch (e) {
-    alert(e.message);
-    return e;
+  } catch (error) {
+    console.log(error);
+    return { error };
   }
 };
 
@@ -27,7 +28,8 @@ export const registerUser = async (user) => {
     const { error } = registerSchema.validate(user);
     if (error) throw error;
     return await api.post('/create', user);
-  } catch (err) {
-    alert(err.message);
+  } catch (error) {
+    console.log(error);
+    return { error };
   }
 };
