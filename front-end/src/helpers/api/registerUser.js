@@ -1,13 +1,11 @@
 const { default: axios } = require('axios');
-const { registerSchema } = require('../validations/credentials');
 
-const registerUser = async (user) => {
+const registerUser = async ({ name, email, password }) => {
   try {
-    const { error } = registerSchema.validate(user);
-    if (error) throw error;
-    return await axios.post('/create', user);
+    const us = await axios.post('http://localhost:3001/create', { name, email, password });
+    return us;
   } catch (err) {
-    console.log(err.message);
+    throw new Error(err);
   }
 };
 
