@@ -13,13 +13,22 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
+  const [isLoginValid, setIsLoginValid] = useState(false);
   const location = pathname === '/login' ? 'login' : 'register';
+  const navigate = useHistory();
 
   const handleLogin = async () => {
-    const userInfo = await getUserInfo(email, password);
+    try {
+      const userInfo = await getUserInfo(email, password);
+      console.log(userInfo);
+      navigate.push('/customer/products');
+    } catch (error) {
+      console.log(error);
+      setIsLoginValid(true);
+    }
     // use local Storage
     // gerar jwt
-    console.log(userInfo);
+    // console.log(userInfo);
   };
 
   const handleSignUp = async () => {
@@ -42,8 +51,6 @@ function Login() {
       state: !registerSchema.isValidSync({ email, password, name: userName }),
       handle: handleSignUp,
     };
-
-  const navigate = useHistory();
 
   const buttonRegister = {
     datatestid: 'common_login__button-register',
@@ -94,6 +101,8 @@ function Login() {
 
       <Button { ...buttonOptions } />
       {pathname === '/login' && <Button { ...buttonRegister } />}
+      {isLoginValid
+      && <p data-testid="common_login__element-invalid-email">Login Inválido</p>}
     </div>
   );
 }
