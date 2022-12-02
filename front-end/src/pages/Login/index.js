@@ -32,9 +32,14 @@ function Login() {
   };
 
   const handleSignUp = async () => {
-    const whatever = await registerUser({ email, password, name: userName });
-
-    console.log(whatever);
+    try {
+      const whatever = await registerUser({ email, password, name: userName });
+      console.log(whatever);
+      navigate.push('/customer/products');
+    } catch (error) {
+      console.log(error);
+      setIsLoginValid(true);
+    }
   };
 
   const buttonOptions = location === 'login'
@@ -45,7 +50,7 @@ function Login() {
       state: !loginSchema.isValidSync({ email, password }),
       handle: handleLogin,
     } : {
-      datatestid: 'common_login__button-resgister',
+      datatestid: 'common_register__button-register',
       name: 'Cadastrar',
       type: 'submit',
       state: !registerSchema.isValidSync({ email, password, name: userName }),
@@ -53,7 +58,7 @@ function Login() {
     };
 
   const buttonRegister = {
-    datatestid: 'common_login__button-register',
+    datatestid: `common_${location}__button-register`,
     name: 'Register',
     type: 'button',
     state: false,
@@ -101,8 +106,12 @@ function Login() {
 
       <Button { ...buttonOptions } />
       {pathname === '/login' && <Button { ...buttonRegister } />}
-      {isLoginValid
+
+      {isLoginValid && location === 'login'
       && <p data-testid="common_login__element-invalid-email">Login Inválido</p>}
+
+      {isLoginValid && location === 'register'
+      && <p data-testid="common_register__element-invalid_register">Registro Inválido</p>}
     </div>
   );
 }
