@@ -20,7 +20,6 @@ function Login() {
     return 'register';
   }, [pathname]);
 
-
   const handleSignUp = async () => {
     const whatever = await registerUser({ email: emailInput, password, name: userName });
 
