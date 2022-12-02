@@ -1,8 +1,7 @@
 const { sign } = require('jsonwebtoken');
+const fs = require('fs');
 const { encode } = require('../../utils/encode');
 const UserService = require('../../services/users');
-const fs = require('fs');
-
 
 const jwtSecret = fs.readFileSync(`${__dirname}/../../../jwt.evaluation.key`, 'utf-8')
 .trim();
