@@ -4,7 +4,7 @@ const UserService = require('../../services/users');
 
 require('dotenv').config();
 
-const jwtSecret = process.env.JWT_SECRET;
+const jwtSecret = process.env.JWT_SECRET || 'json_token_secret';
 
 const login = async (req, res) => {
   const { email, password } = req.body;
