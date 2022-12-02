@@ -17,7 +17,7 @@ function AuthProvider({ children }) {
   const login = async ({ email, password }) => {
     try {
       const returnedToken = await logMe({ email, password });
-      localStorage.setItem('token', returnedToken.token);
+      localStorage.setItem('token', returnedToken);
       setToken(returnedToken);
       const checkUser = await getMe(token);
       const { name, id, role } = checkUser;

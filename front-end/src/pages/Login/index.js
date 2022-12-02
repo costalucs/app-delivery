@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { useUser } from '../../context/Auth.context';
+import { useLogin, useUser } from '../../context/Auth.context';
 import { registerUser } from '../../helpers/api/users';
 
 function Login() {
@@ -11,13 +11,15 @@ function Login() {
   const [emailInput, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
+
+  const login = useLogin();
+  const user = useUser();
+
   const location = useMemo(() => {
     if (pathname === '/login') return 'login';
     return 'register';
   }, [pathname]);
 
-  const user = useUser();
-  console.log(user);
 
   const handleSignUp = async () => {
     const whatever = await registerUser({ email: emailInput, password, name: userName });
@@ -31,7 +33,7 @@ function Login() {
       name: 'Login',
       type: 'submit',
       state: false,
-      handle: () => user.login({ email: emailInput, password }),
+      handle: () => login({ email: emailInput, password }),
     } : {
       datatestid: 'common_login__button-resgister',
       name: 'Cadastrar',
@@ -48,6 +50,7 @@ function Login() {
 
   return (
     <div>
+      {user && <Navigate to="/customers/products/" />}
       {location === 'register' && <Input
         datatestid="common_register__input-name"
         label="Nome"

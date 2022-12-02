@@ -16,7 +16,7 @@ const getMe = async (req, res) => {
     if (!authorization) return res.status(400).json({ message: 'Token required' });
     const { id } = verify(authorization, process.env.JWT_SECRET || 'json_token_secret');
     const { dataValues } = await UserService.findById(id);
-    return { ...dataValues };
+    return res.status(200).json(dataValues);
   } catch (e) {
     console.log('should treat errors', e);
     return { message: e.message };

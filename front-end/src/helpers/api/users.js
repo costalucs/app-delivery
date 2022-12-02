@@ -15,7 +15,7 @@ export const login = async (credentials) => {
 
 export const getMe = async (token) => {
   try {
-    const { data } = await api.get('/me', { headers: { authorization: { token } } });
+    const { data } = await api.get('/me', { headers: { authorization: token } });
     return data;
   } catch (error) {
     console.log(error);
