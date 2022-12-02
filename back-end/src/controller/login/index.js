@@ -1,10 +1,14 @@
 const { sign } = require('jsonwebtoken');
 const { encode } = require('../../utils/encode');
 const UserService = require('../../services/users');
+const fs = require('fs');
 
-const jwtSecret = process.env.JWT_SECRET;
+
+const jwtSecret = fs.readFileSync(`${__dirname}/../../../jwt.evaluation.key`, 'utf-8')
+.trim();
 
 const login = async (req, res) => {
+  console.log(jwtSecret);
   const { email, password } = req.body;
   const passwordMd5 = encode(password);
   const user = await UserService.getOne(email, passwordMd5);
