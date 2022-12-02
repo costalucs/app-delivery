@@ -1,12 +1,12 @@
 import api from '.';
 import { loginSchema, registerSchema } from '../validations/credentials';
 
-export const login = async (email, password) => {
+export const login = async (credentials) => {
   try {
-    const { error } = loginSchema.validate({ email, password });
+    const { error } = loginSchema.validate(credentials);
     if (error) throw error;
-    const { data } = await api.post('/login', { email, password });
-    return data;
+    const { data: { token } } = await api.post('login', credentials);
+    return token;
   } catch (e) {
     alert(e.message);
   }
@@ -14,10 +14,11 @@ export const login = async (email, password) => {
 
 export const getMe = async (token) => {
   try {
-    const user = await api.get('/me', {}, { headers: { authorization: { token } } });
-    return user;
+    const { data } = await api.get('/me', { headers: { authorization: { token } } });
+    return data;
   } catch (e) {
     alert(e.message);
+    return e;
   }
 };
 

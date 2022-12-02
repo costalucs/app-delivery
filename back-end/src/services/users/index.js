@@ -11,7 +11,7 @@ const getOne = async (email, password) => {
     where: { [Op.and]: [{ email }, { password }] },
     attributes: { exclude: ['password'] },
   });
-  return user;
+  return { ...user.dataValues };
 };
 
 const findById = async (id) => {

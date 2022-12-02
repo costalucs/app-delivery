@@ -14,13 +14,12 @@ const getMe = async (req, res) => {
   try {
     const { authorization } = req.headers;
     if (!authorization) return res.status(400).json({ message: 'Token required' });
-    const data = verify(authorization);
-    if (data) {
-      const user = await UserService.findById(data.id);
-      return user;
-    }
+    const { id } = verify(authorization, process.env.JWT_SECRET || 'json_token_secret');
+    const { dataValues } = await UserService.findById(id);
+    return { ...dataValues };
   } catch (e) {
-    console.log('should treat errors');
+    console.log('should treat errors', e);
+    return { message: e.message };
   }
 };
 

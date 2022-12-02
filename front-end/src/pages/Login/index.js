@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import Button from '../../components/Button';
@@ -8,15 +8,19 @@ import { registerUser } from '../../helpers/api/users';
 
 function Login() {
   const { pathname } = useLocation();
-  const [email, setEmail] = useState('');
+  const [emailInput, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
-  const location = pathname === '/login' ? 'login' : 'register';
+  const location = useMemo(() => {
+    if (pathname === '/login') return 'login';
+    return 'register';
+  }, [pathname]);
 
   const user = useUser();
+  console.log(user);
 
   const handleSignUp = async () => {
-    const whatever = await registerUser({ email, password, name: userName });
+    const whatever = await registerUser({ email: emailInput, password, name: userName });
 
     console.log(whatever);
   };
@@ -27,7 +31,7 @@ function Login() {
       name: 'Login',
       type: 'submit',
       state: false,
-      handle: () => user.signIn({ email, password }),
+      handle: () => user.login({ email: emailInput, password }),
     } : {
       datatestid: 'common_login__button-resgister',
       name: 'Cadastrar',
@@ -44,22 +48,22 @@ function Login() {
 
   return (
     <div>
-      {pathname === '/register' && <Input
+      {location === 'register' && <Input
         datatestid="common_register__input-name"
         label="Nome"
         id="name-input-text"
         type="email"
         value={ userName }
         name="name"
-        placeHolder="email@email.com"
+        placeHolder="Your name here"
         handle={ handleChange }
       />}
       <Input
         datatestid={ `common_${location}__input-email` }
         label="Login"
-        id={ `${location}-input-text` }
+        id={ `${location}-email-input-text` }
         type="email"
-        value={ email }
+        value={ emailInput }
         name="email"
         placeHolder="email@email.com"
         handle={ handleChange }
@@ -68,7 +72,7 @@ function Login() {
         datatestid={ `common_${location}__input-password` }
         label="Password"
         name="password"
-        id={ `${location}-input-text` }
+        id={ `${location}-password-input-text` }
         type="password"
         value={ password }
         handle={ handleChange }

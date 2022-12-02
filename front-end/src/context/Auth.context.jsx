@@ -1,5 +1,6 @@
 import React, {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -8,28 +9,28 @@ import React, {
 import PropTypes from 'prop-types';
 import { login as logMe, getMe } from '../helpers/api/users';
 
-const AuthContext = createContext();
+const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
 
-  async function signIn(email, password) {
+  const login = useCallback(async ({ email, password }) => {
     try {
       const returnedToken = await logMe({ email, password });
-      console.log(returnedToken);
       localStorage.setItem('token', returnedToken.token);
-      setToken(returnedToken.token);
-      const { name, role, id } = await getMe(token);
+      setToken(returnedToken);
+      const checkUser = await getMe(token);
+      const { name, id, role } = checkUser;
       localStorage.setItem('user', JSON.stringify({ id, name, role }));
       setUser({ id, name, role });
     } catch (e) {
       console.log(e);
       alert(e.message);
     }
-  }
+  }, [token, user]);
 
-  function signOut() {
+  function logout() {
     setUser(null);
     setToken(null);
     localStorage.removeItem('token');
@@ -37,20 +38,17 @@ function AuthProvider({ children }) {
   }
 
   const value = useMemo(() => ({
-    signIn,
-    signOut,
+    login,
+    logout,
     user,
     token,
-  }), [user, token]);
+  }), [user, token, login]);
 
   useEffect(() => {
     const localToken = localStorage.getItem('token');
-    if (!localToken) {
-      setUser({});
-      setToken(null);
-    } else {
+    if (localToken) {
       setToken(localToken);
-      setUser(async () => getMe(localToken));
+      getMe(localToken).then((data) => setUser(data)).catch((e) => console.log(e));
       localStorage.setItem('user', JSON.stringify(user));
     }
   }, []);
