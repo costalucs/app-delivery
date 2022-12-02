@@ -1,5 +1,5 @@
-const UserService = require('../../services/users');
 const { verify } = require('jsonwebtoken');
+const UserService = require('../../services/users');
 
 const createUser = async (req, res) => {
   try {
