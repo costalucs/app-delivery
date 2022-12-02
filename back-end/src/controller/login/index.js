@@ -1,4 +1,4 @@
-const { sign, verify } = require('jsonwebtoken');
+const { sign } = require('jsonwebtoken');
 const { encode } = require('../../utils/encode');
 const UserService = require('../../services/users');
 
@@ -11,7 +11,7 @@ const login = async (req, res) => {
   const passwordMd5 = encode(password);
   const { dataValues: { id, role } } = await UserService.getOne(email, passwordMd5);
 
-  if (!user) return res.status(404).json({ message: 'Not found' });
+  if (!id) return res.status(404).json({ message: 'Not found' });
 
   const token = sign({ id, role }, jwtSecret);
 

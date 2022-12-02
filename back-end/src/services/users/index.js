@@ -15,7 +15,7 @@ const getOne = async (email, password) => {
 };
 
 const findById = async (id) => {
-  const user = await  model.users.findByPk(id, { attributes: { exclude: ['password'] } });
+  const user = await model.users.findByPk(id, { attributes: { exclude: ['password'] } });
   return user;
 };
 

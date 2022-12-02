@@ -1,4 +1,5 @@
 const UserService = require('../../services/users');
+const { verify } = require('jsonwebtoken');
 
 const createUser = async (req, res) => {
   try {
@@ -18,9 +19,9 @@ const getMe = async (req, res) => {
       const user = await UserService.findById(data.id);
       return user;
     }
-  } catch(e) {
-    console.log('shiuld treat errors');
+  } catch (e) {
+    console.log('should treat errors');
   }
-} 
+};
 
 module.exports = { createUser, getMe };
