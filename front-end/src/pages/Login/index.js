@@ -24,23 +24,15 @@ function Login() {
   }, [pathname]);
 
   const handleLogin = async () => {
-    try {
-      session.login({ email: emailInput, password: passwordInput });
-    } catch (error) {
-      console.log(error);
-      setLoginValidation(true);
-    }
+    const confirm = await session.login({ email: emailInput, password: passwordInput });
+    if (!confirm) setLoginValidation(true);
   };
 
   const handleSignUp = async () => {
-    try {
-      await session.register(
-        { email, password: passwordInput, name: userName },
-      );
-    } catch (error) {
-      console.log(error);
-      setLoginValidation(true);
-    }
+    const confirm = await session.register(
+      { email, password: passwordInput, name: userName },
+    );
+    if (!confirm) setLoginValidation(true);
   };
 
   const buttonOptions = location === 'login'
@@ -76,7 +68,7 @@ function Login() {
 
   return (
     <div>
-      {session.user.id && <Redirect to="/customers/products/" />}
+      {session.user.id && <Redirect to="/customer/products" />}
       {location === 'register' && <Input
         datatestid="common_register__input-name"
         label="Nome"
