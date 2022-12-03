@@ -18,7 +18,6 @@ const getMe = async (req, res, next) => {
     if (!authorization) return res.status(400).json({ message: 'Token required' });
 
     const user = await UserService.findByToken(authorization);
-    console.log(user)
     
     return res.status(200).json(user);
   } catch (e) {
