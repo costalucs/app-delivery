@@ -1,23 +1,19 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useSession } from '../../context/Auth.context';
 
 function Header() {
-  const navigate = useHistory();
-  // const getLocalStorage = () => {
-  //   // const obj = localStorage.getItem(key);
-  //   // return JSON.parse(obj);
-  // };
+  const session = useSession();
 
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    navigate.push('/login');
-  };
-
-  console.log('oie');
-
-  // const { name } = getLocalStorage('user');
+  const { name } = session.user;
   return (
     <header>
+      <p>
+        Olá,
+        {' '}
+        {name}
+        !
+      </p>
       <nav>
         <Link
           to="/customer/products"
@@ -40,7 +36,7 @@ function Header() {
       <Link
         to="/login"
         data-testid="customer_products__element-navbar-link-logout"
-        onClick={ handleLogout }
+        onClick={ () => session.logout() }
       >
         Sair
       </Link>
