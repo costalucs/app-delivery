@@ -36,7 +36,7 @@ const create = async ({ name, email, password, role }) => {
     );
     console.log(user);
     return { token: sign({ id: user.id, name: user.name, role: user.role }, jwtSecret) };
-  } catch(e) {
+  } catch (e) {
     throw new HttpException(409, 'Invalid new user');
   }
 };
