@@ -14,22 +14,11 @@ function AuthProvider({ children }) {
   const [contextToken, setToken] = useState('null');
   const [contextUser, setUser] = useState({});
 
-  function contextLogout() {
+  const contextLogout = useMemo(() => () => {
     localStorage.clear();
     setUser({});
     setToken('null');
-  }
-
-  async function contextLogin({ email, password }) {
-    try {
-      const returnedToken = await logMe({ email, password });
-      localStorage.setItem('token', returnedToken);
-      setToken(returnedToken);
-    } catch (e) {
-      console.log(e);
-      contextLogout();
-    }
-  }
+  }, []);
 
   async function asyncGetMe() {
     const user = await getMe(contextToken);
@@ -57,7 +46,18 @@ function AuthProvider({ children }) {
 
   const value = useMemo(
     () => ({
-      login: contextLogin,
+      login: async ({ email, password }) => {
+        try {
+          const returnedToken = await logMe({ email, password });
+          localStorage.setItem('token', returnedToken);
+          setToken(returnedToken);
+          return true;
+        } catch (e) {
+          console.log(e);
+          contextLogout();
+          return false;
+        }
+      },
       logout: contextLogout,
       user: contextUser,
       token: contextToken,
@@ -67,12 +67,16 @@ function AuthProvider({ children }) {
             (returnedToken) => {
               localStorage.setItem('token', returnedToken);
               setToken(returnedToken);
-              return returnedToken;
+              return true;
             },
-          ).catch((e) => { console.log(e); });
+          ).catch((e) => {
+            console.log(e);
+            contextLogout();
+            return false;
+          });
       },
     }),
-    [contextToken, contextUser, contextLogin, contextLogout],
+    [contextToken, contextUser, contextLogout],
   );
 
   return (
