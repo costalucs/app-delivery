@@ -29,19 +29,23 @@ const login = async (email, password) => {
 };
 
 const create = async ({ name, email, password, role }) => {
-  const md5password = md5(password);
-  const user = await model.users.create( 
-    { name, email, password: md5password, role: role || 'customer' },
-  );
-  if (!user) throw new HttpException(409, 'Invalid new user');
-  return { token: sign({ id: user.id, name: user.name, role: user.role }, jwtSecret) };
+  try {
+    const md5password = md5(password);
+    const user = await model.users.create( 
+      { name, email, password: md5password, role: role || 'customer' },
+    );
+    console.log(user);
+    return { token: sign({ id: user.id, name: user.name, role: user.role }, jwtSecret) };
+  } catch(e) {
+    throw new HttpException(409, 'Invalid new user');
+  }
 };
 
 const findByToken = async (token) => {
   const { id } = verify(token, jwtSecret);
   if (!id) throw new HttpException(400, 'Need valid credentials');
-  const { dataValues } = await model.users.findByPk(id, { attributes: { exclude: ['password'] } });
-  return dataValues;
+  const queryResult = await model.users.findByPk(id, { attributes: { exclude: ['password'] } });
+  return queryResult.dataValues;
 };
 
 module.exports = { getAll, login, create, findByToken };
