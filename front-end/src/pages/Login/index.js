@@ -1,44 +1,45 @@
-import { useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useMemo, useState } from 'react';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
-import { getUserInfo } from '../../helpers/api/login';
-import { registerUser } from '../../helpers/api/registerUser';
 import { loginSchema, registerSchema } from '../../helpers/validations/credentials';
+
+import { useSession } from '../../context/Auth.context';
 
 function Login() {
   const { pathname } = useLocation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [emailInput, setEmail] = useState('');
+  const [passwordInput, setPassword] = useState('');
   const [userName, setUserName] = useState('');
-  const [isLoginValid, setIsLoginValid] = useState(false);
-  const location = pathname === '/login' ? 'login' : 'register';
+  const [isLoginInvalid, setLoginValidation] = useState(false);
+
   const navigate = useHistory();
+  const session = useSession();
+
+  const location = useMemo(() => {
+    if (pathname === '/login') return 'login';
+    return 'register';
+  }, [pathname]);
 
   const handleLogin = async () => {
     try {
-      const userInfo = await getUserInfo(email, password);
-      console.log(userInfo);
-      navigate.push('/customer/products');
+      session.login({ email: emailInput, password: passwordInput });
     } catch (error) {
       console.log(error);
-      setIsLoginValid(true);
+      setLoginValidation(true);
     }
-    // use local Storage
-    // gerar jwt
-    // console.log(userInfo);
   };
 
   const handleSignUp = async () => {
     try {
-      const whatever = await registerUser({ email, password, name: userName });
-      console.log(whatever);
-      navigate.push('/customer/products');
+      await session.register(
+        { email, password: passwordInput, name: userName },
+      );
     } catch (error) {
       console.log(error);
-      setIsLoginValid(true);
+      setLoginValidation(true);
     }
   };
 
@@ -47,13 +48,15 @@ function Login() {
       datatestid: 'common_login__button-login',
       name: 'Login',
       type: 'submit',
-      state: !loginSchema.isValidSync({ email, password }),
+      state: !loginSchema.isValidSync({ email: emailInput, password: passwordInput }),
       handle: handleLogin,
     } : {
       datatestid: 'common_register__button-register',
       name: 'Cadastrar',
       type: 'submit',
-      state: !registerSchema.isValidSync({ email, password, name: userName }),
+      state: !registerSchema.isValidSync(
+        { email: emailInput, password: passwordInput, name: userName },
+      ),
       handle: handleSignUp,
     };
 
@@ -73,22 +76,23 @@ function Login() {
 
   return (
     <div>
-      {pathname === '/register' && <Input
+      {session.user.id && <Redirect to="/customers/products/" />}
+      {location === 'register' && <Input
         datatestid="common_register__input-name"
         label="Nome"
         id="name-input-text"
         type="email"
         value={ userName }
         name="name"
-        placeHolder="email@email.com"
+        placeHolder="Your name here"
         handle={ handleChange }
       />}
       <Input
         datatestid={ `common_${location}__input-email` }
         label="Login"
-        id={ `${location}-input-text` }
+        id={ `${location}-email-input-text` }
         type="email"
-        value={ email }
+        value={ emailInput }
         name="email"
         placeHolder="email@email.com"
         handle={ handleChange }
@@ -97,9 +101,9 @@ function Login() {
         datatestid={ `common_${location}__input-password` }
         label="Password"
         name="password"
-        id={ `${location}-input-text` }
+        id={ `${location}-password-input-text` }
         type="password"
-        value={ password }
+        value={ passwordInput }
         handle={ handleChange }
         placeHolder="Password"
       />
@@ -107,10 +111,10 @@ function Login() {
       <Button { ...buttonOptions } />
       {pathname === '/login' && <Button { ...buttonRegister } />}
 
-      {isLoginValid && location === 'login'
+      {isLoginInvalid && location === 'login'
       && <p data-testid="common_login__element-invalid-email">Login Inválido</p>}
 
-      {isLoginValid && location === 'register'
+      {isLoginInvalid && location === 'register'
       && <p data-testid="common_register__element-invalid_register">Registro Inválido</p>}
     </div>
   );
