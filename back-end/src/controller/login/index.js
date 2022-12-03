@@ -1,5 +1,5 @@
 const UserService = require('../../services/users');
-const { HttpException } = require('../../shared/error')
+const { HttpException } = require('../../shared/error');
 
 const login = async (req, res, next) => {
   try {
@@ -11,8 +11,7 @@ const login = async (req, res, next) => {
     // provide response
     return res.status(200).json({ token });
   } catch (e) {
-    console.log(e)
-    next(e)
+    next(e);
   }
 };
 

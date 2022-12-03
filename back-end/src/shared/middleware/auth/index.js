@@ -1,6 +1,5 @@
 const joiValidate = require('../../../joivalidation/joiSchemas');
 const userServices = require('../../../services/users');
-const { HttpException } = require('../../error');
 
 const validateLogin = async (req, res, next) => {
   const { email, password } = req.body;
@@ -17,6 +16,6 @@ const validateToken = async (req, res, next) => {
   } catch (e) {
     return next(e);
   }
-}
+};
 
-module.exports = { validateLogin };
+module.exports = { validateLogin, validateToken };

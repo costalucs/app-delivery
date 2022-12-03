@@ -3,8 +3,8 @@ const { HttpException } = require('../../shared/error');
 
 const createUser = async (req, res, next) => {
   try {
-    const { email, name, password } =req.body;
-    if(!email || !name || !password) throw new HttpException(400, 'Missing required fields');
+    const { email, name, password } = req.body;
+    if (!email || !name || !password) throw new HttpException(400, 'Missing required fields');
     const newUser = await UserService.create(req.body);
     return res.status(201).json(newUser);
   } catch (error) {

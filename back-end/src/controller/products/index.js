@@ -6,7 +6,6 @@ const getAll = async (_req, res, next) => {
     const allProducts = await productsService.getAll();
     return res.status(200).json(allProducts);
   } catch (e) {
-    console.log(e);
     next(e);
   }
 };
