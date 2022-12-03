@@ -30,7 +30,7 @@ function Login() {
 
   const handleSignUp = async () => {
     const confirm = await session.register(
-      { email, password: passwordInput, name: userName },
+      { email: emailInput, password: passwordInput, name: userName },
     );
     if (!confirm) setLoginValidation(true);
   };

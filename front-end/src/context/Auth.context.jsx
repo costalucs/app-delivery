@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
-import { login as logMe, getMe } from '../helpers/api/users';
+import { login as logMe, getMe, registerUser } from '../helpers/api/users';
 
 const AuthContext = createContext({});
 
@@ -64,9 +64,9 @@ function AuthProvider({ children }) {
       register: async (newUser) => {
         await registerUser(newUser)
           .then(
-            (returnedToken) => {
-              localStorage.setItem('token', returnedToken);
-              setToken(returnedToken);
+            ({ data }) => {
+              localStorage.setItem('token', data.token);
+              setToken(data.token);
               return true;
             },
           ).catch((e) => {
