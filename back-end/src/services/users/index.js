@@ -23,8 +23,8 @@ const login = async (email, password) => {
     // attributes: { exclude: ['password', 'id'] },
   });
   if (!user) throw new HttpException(404, 'User not found');
-  const token = sign(user.dataValues, jwtSecret)
-  console.log('verify token',verify(token, jwtSecret));
+  
+  const token = sign(user.dataValues, jwtSecret);
 
   return token;
 };
