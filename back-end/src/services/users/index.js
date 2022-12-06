@@ -9,8 +9,7 @@ const { HttpException } = require('../../shared/error');
 
 const { encode } = require('../../utils/encode');
 
-const jwtSecret = fs.readFileSync(`${__dirname}/../../../jwt.evaluation.key`, 'utf-8')
-.trim();
+const jwtSecret = fs.readFileSync(`${__dirname}/../../../jwt.evaluation.key`, 'utf-8');
 
 const getAll = async () => {
   const allProducts = await model.users.findAll();
@@ -21,11 +20,13 @@ const login = async (email, password) => {
   const passwordMd5 = encode(password);
   const user = await model.users.findOne({
     where: { [Op.and]: [{ email }, { password: passwordMd5 }] },
-    // attributes: { exclude: ['password'] },
+    // attributes: { exclude: ['password', 'id'] },
   });
   if (!user) throw new HttpException(404, 'User not found');
+  
+  const token = sign(user.dataValues, jwtSecret);
 
-  return sign(user.dataValues, jwtSecret);
+  return token;
 };
 
 const create = async ({ name, email, password, role }) => {

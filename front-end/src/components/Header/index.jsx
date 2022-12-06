@@ -8,12 +8,12 @@ function Header() {
   const { name } = session.user;
   return (
     <header>
-      <p>
+      {/* <p>
         Olá,
         {' '}
         {name}
         !
-      </p>
+      </p> */}
       <nav>
         <Link
           to="/customer/products"
@@ -31,7 +31,10 @@ function Header() {
       <p
         data-testid="customer_products__element-navbar-user-full-name"
       >
-        nome user
+        Olá,
+        {' '}
+        {name}
+        !
       </p>
       <Link
         to="/login"
