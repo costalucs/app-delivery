@@ -1,9 +1,12 @@
 const express = require('express');
 const cors = require('cors');
+
 const loginController = require('../controller/login/index');
 const productsController = require('../controller/products');
 const userController = require('../controller/user');
-const { validateLogin } = require('../middleware/validations/validateLogin');
+
+const { validateLogin } = require('../shared/middleware/auth');
+const { errorMiddleware } = require('../shared/middleware/error');
 
 const app = express();
 
@@ -14,5 +17,8 @@ app.use(express.static('public'));
 app.get('/products', productsController.getAll);
 app.post('/login', validateLogin, loginController.login);
 app.post('/create', userController.createUser);
+app.get('/me', userController.getMe);
+
+app.use(errorMiddleware);
 
 module.exports = app;
