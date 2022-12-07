@@ -18,6 +18,7 @@ app.get('/products', productsController.getAll);
 app.post('/login', validateLogin, loginController.login);
 app.post('/create', userController.createUser);
 app.get('/me', userController.getMe);
+app.get('/get/sellers', userController.getSellers);
 
 app.use(errorMiddleware);
 
