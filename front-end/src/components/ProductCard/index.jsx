@@ -1,14 +1,37 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useCart } from '../../context/Cart.context';
 
 function ProductCard({ id, name, price, urlImage }) {
+  const [quantity, setQuantity] = useState(0);
+  const cart = useCart();
+
+  function addButon() {
+    setQuantity(quantity + 1);
+    // cart.addProduct({ id, name, price, quantity });
+  }
+
+  function removeButton() {
+    if (quantity === 0) return setQuantity(0);
+    setQuantity(quantity - 1);
+    // cart.removeProduct({ id, name, price, quantity });
+  }
+
+  function changeValue({ target: { value } }) {
+    setQuantity(value);
+  }
+
+  useEffect(() => {
+    cart.handleQuantity({ id, name, price, quantity });
+  }, [quantity]);
+
   return (
     <div>
       <div>
         <span
           data-testid={ `customer_products__element-card-price-${id}` }
         >
-          { `R$ ${(price)}` }
+          { `R$ ${(price.replace(/\./, ','))}` }
         </span>
         <img
           data-testid={ `customer_products__img-card-bg-image-${id}` }
@@ -25,17 +48,20 @@ function ProductCard({ id, name, price, urlImage }) {
         <button
           type="button"
           data-testid={ `customer_products__button-card-rm-item-${id}` }
+          onClick={ removeButton }
         >
           -
         </button>
         <input
           type="number"
           data-testid={ `customer_products__input-card-quantity-${id}` }
-          style={ { appearance: 'textfield' } }
+          value={ quantity }
+          onChange={ changeValue }
         />
         <button
           type="button"
           data-testid={ `customer_products__button-card-add-item-${id}` }
+          onClick={ addButon }
         >
           +
         </button>

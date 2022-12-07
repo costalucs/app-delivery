@@ -1,12 +1,6 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
 import PropTypes from 'prop-types';
-import { login as logMe, getMe, registerUser } from '../helpers/api/users';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { getMe, getSellers, login as logMe, registerUser } from '../helpers/api/users';
 
 const AuthContext = createContext({});
 
@@ -55,6 +49,16 @@ function AuthProvider({ children }) {
         } catch (e) {
           console.log(e);
           contextLogout();
+          return false;
+        }
+      },
+      sellers: async (token) => {
+        try {
+          const sellers = await getSellers(token);
+          console.log(sellers);
+          return sellers;
+        } catch (e) {
+          console.log(e);
           return false;
         }
       },
