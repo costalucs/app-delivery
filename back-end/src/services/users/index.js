@@ -29,6 +29,20 @@ const login = async (email, password) => {
   return token;
 };
 
+const getSellers = async(token) => {
+  try {
+    verify(token, jwtSecret);
+    const sellers = await model.users.findAll({
+      where: {role: 'seller' },
+      attributes: ['id', 'name'],
+    });
+    return sellers    
+  } catch (error) {
+    return error    
+  }
+
+}
+
 const create = async ({ name, email, password, role }) => {
   try {
     const md5password = md5(password);
@@ -49,4 +63,4 @@ const findByToken = async (token) => {
   return queryResult.dataValues;
 };
 
-module.exports = { getAll, login, create, findByToken };
+module.exports = { getAll, login, create, findByToken, getSellers };
