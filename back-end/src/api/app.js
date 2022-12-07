@@ -8,7 +8,7 @@ const userController = require('../controller/user');
 const { validateLogin } = require('../shared/middleware/auth');
 const { errorMiddleware } = require('../shared/middleware/error');
 
-const seller = require('../routes/seller.routes');
+const { seller } = require('../routes/seller.routes');
 
 const app = express();
 
