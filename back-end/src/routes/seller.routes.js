@@ -11,4 +11,4 @@ seller.get('/orders', getMySales);
 
 module.exports = {
   seller,
-}
+};

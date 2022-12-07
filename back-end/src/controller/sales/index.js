@@ -8,8 +8,8 @@ async function getMySales(req, res, next) {
   } catch (e) {
     next(e);
   }
-};
+}
 
 module.exports = {
   getMySales,
-}
+};
