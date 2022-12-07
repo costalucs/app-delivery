@@ -1,12 +1,6 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
 import PropTypes from 'prop-types';
-import { login as logMe, getMe, registerUser } from '../helpers/api/users';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { getMe, login as logMe, registerUser } from '../helpers/api/users';
 
 const AuthContext = createContext({});
 
@@ -24,7 +18,7 @@ function AuthProvider({ children }) {
     const user = await getMe(contextToken);
     if (user.id) {
       setUser(user);
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify({ ...user, token: contextToken }));
     } else {
       contextLogout();
       // should some how return message?
