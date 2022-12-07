@@ -11,7 +11,7 @@ const validateLogin = async (req, res, next) => {
 const validateToken = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    await userServices.verifySession(authorization);
+    await userServices.findByToken(authorization);
     return next();
   } catch (e) {
     return next(e);
