@@ -45,6 +45,7 @@ export default function Products() {
           type="button"
           data-testid="customer_products__button-cart"
           onClick={ checkoutButton }
+          disabled={ cartValue === 0 }
         >
           Carrinho:
           {' '}
