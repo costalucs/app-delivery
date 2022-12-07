@@ -23,33 +23,31 @@ const login = async (email, password) => {
     // attributes: { exclude: ['password', 'id'] },
   });
   if (!user) throw new HttpException(404, 'User not found');
-  
+
   const token = sign(user.dataValues, jwtSecret);
 
   return token;
 };
 
-const getSellers = async(token) => {
+const getSellers = async (token) => {
   try {
     verify(token, jwtSecret);
     const sellers = await model.users.findAll({
-      where: {role: 'seller' },
+      where: { role: 'seller' },
       attributes: ['id', 'name'],
     });
-    return sellers    
+    return sellers;
   } catch (error) {
-    return error    
+    return error;
   }
-
-}
+};
 
 const create = async ({ name, email, password, role }) => {
   try {
     const md5password = md5(password);
-    const user = await model.users.create( 
+    const user = await model.users.create(
       { name, email, password: md5password, role: role || 'customer' },
     );
-    console.log(user);
     return { token: sign({ id: user.id, name: user.name, role: user.role }, jwtSecret) };
   } catch (e) {
     throw new HttpException(409, 'Invalid new user');
