@@ -8,6 +8,8 @@ const userController = require('../controller/user');
 const { validateLogin } = require('../shared/middleware/auth');
 const { errorMiddleware } = require('../shared/middleware/error');
 
+const seller = require('../routes/seller.routes');
+
 const app = express();
 
 app.use(cors());
@@ -18,6 +20,8 @@ app.get('/products', productsController.getAll);
 app.post('/login', validateLogin, loginController.login);
 app.post('/create', userController.createUser);
 app.get('/me', userController.getMe);
+
+app.use('/seller', seller);
 
 app.use(errorMiddleware);
 
