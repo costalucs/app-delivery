@@ -1,24 +1,20 @@
-const Models = require('../../database/models');
 const { sales, salesProducts } = require('../../database/models');
 const { findByToken } = require('../users');
 
 async function getSalesByToken(token) {
-  const { id, role } = await findByToken(token);
-  if (role === 'seller') {
-    const { dataValues } = await Models.sales.findAll({
-      where: {
-        sellerId: id,
-      },
-    });
-    return dataValues;
-  }
-  const { dataValues } = await Models.sales.findAll({
+  const user = await findByToken(token);
+  const column = user.role === 'seller' ? 'sellerId' : 'userId';
+  const test = await sales.findAll({
     where: {
-      userId: id,
+      [column]: user.id,
     },
-    // include: 'products',
+    include: [{
+      association: 'products',
+      attributes: ['name', 'price'],
+      through: { attributes: ['quantity'] },
+    }],
   });
-  return dataValues;
+  return test
 }
 
 const createSale = async ({ sellerId, deliveryAddress, deliveryNumber, totalPrice },
