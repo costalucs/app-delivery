@@ -1,29 +1,36 @@
 import { createContext, useContext, useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSession } from './Auth.context';
-import { getMySales } from '../helpers/api/sales';
+import { getMyOrders, getMySales } from '../helpers/api/sales';
 
 const sellerContext = createContext({});
 
 export default function SellerProvider({ children }) {
   const session = useSession();
-  const [sales, setSales] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
+    const { user: { role } } = session;
     async function fillSales() {
-      const response = await getMySales(session.token);
-      setSales(response);
-      console.log(response);
+      if (role === 'customers') {
+        const response = await getMyOrders(session.token);
+        setOrders(response);
+      } else if (role === 'seller') {
+        const response = await getMySales(session.token);
+        setOrders(response);
+      } else {
+        setOrders([]);
+      }
     }
     fillSales();
-  }, []);
+  }, [session]);
 
   const value = useMemo(() => {
-    if (session.user.role === 'seller') {
-      return { sales };
+    if (session.user.role) {
+      return orders;
     }
-    return {};
-  }, [session, sales]);
+    return [];
+  }, [session, orders]);
 
   return (
     <sellerContext.Provider value={ value }>

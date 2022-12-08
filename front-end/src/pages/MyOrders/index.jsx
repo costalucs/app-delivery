@@ -1,11 +1,10 @@
 import React from 'react';
 import Header from '../../components/Header';
-import SaleCard from '../../components/SaleCard';
-import { useSales } from '../../context/Seller.context';
+import SaleCard from '../../components/OrderCard';
+import { useSales } from '../../context/Orders.context';
 
-function MySales() {
+function MyOrders() {
   const sales = useSales();
-  console.log(sales);
   return (
     <>
       <Header />
@@ -18,4 +17,4 @@ function MySales() {
   );
 }
 
-export default MySales;
+export default MyOrders;
