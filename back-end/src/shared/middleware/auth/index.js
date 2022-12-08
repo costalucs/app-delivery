@@ -1,5 +1,8 @@
+const { verify } = require('jsonwebtoken');
+const fs = require('fs');
 const joiValidate = require('../../../joivalidation/joiSchemas');
-const userServices = require('../../../services/users');
+
+const jwtSecret = fs.readFileSync(`${__dirname}/../../../../jwt.evaluation.key`, 'utf-8');
 
 const validateLogin = async (req, res, next) => {
   const { email, password } = req.body;
@@ -8,11 +11,14 @@ const validateLogin = async (req, res, next) => {
   next();
 };
 
-const validateToken = async (req, res, next) => {
+const validateToken = async (req, _res, next) => {
   try {
     const { authorization } = req.headers;
-    await userServices.verifySession(authorization);
-    return next();
+
+    const decoded = verify(authorization, jwtSecret);
+
+    req.user = { ...decoded };
+    next();
   } catch (e) {
     return next(e);
   }
