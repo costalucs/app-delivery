@@ -15,6 +15,7 @@ async function getSalesByToken(token) {
     where: {
       customerId: id,
     },
+    include: 'products',
   });
   return dataValues;
 }
