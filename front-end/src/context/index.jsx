@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import AuthProvider from './Auth.context';
 import CartProvider from './Cart.context';
-// import OrdersProvider from './Orders.context';
+import OrdersProvider from './Orders.context';
 
 function AppContext({ children }) {
   return (
     <AuthProvider>
       <CartProvider>
-        {/* <OrdersProvider> */}
-        {children}
-        {/* </OrdersProvider> */}
+        <OrdersProvider>
+          {children}
+        </OrdersProvider>
       </CartProvider>
     </AuthProvider>
   );

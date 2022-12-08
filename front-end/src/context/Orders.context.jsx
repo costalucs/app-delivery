@@ -4,10 +4,12 @@ import {
   useState,
   useMemo,
   useEffect,
+  useRef,
   // useRef,
 } from 'react';
 import PropTypes from 'prop-types';
 import getMyOrders from '../helpers/api/orders';
+import { useSession } from './Auth.context';
 
 const ordersContext = createContext({
   orders: [],
@@ -15,15 +17,23 @@ const ordersContext = createContext({
 
 export default function OrdersProvider({ children }) {
   const [orders, setOrders] = useState([]);
+  const firstRender = useRef(true);
+  const { token } = useSession();
 
   async function fillSales() {
-    const response = await getMyOrders(localStorage.getItem('token'));
-    setOrders(response);
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    if (token) {
+      const response = await getMyOrders(token);
+      setOrders(response);
+    }
   }
 
   useEffect(() => {
     fillSales();
-  }, []);
+  }, [firstRender, token]);
 
   const value = useMemo(() => ({ orders }), [orders]);
 
