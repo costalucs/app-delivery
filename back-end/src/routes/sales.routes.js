@@ -3,12 +3,12 @@ const { validateToken } = require('../shared/middleware/auth');
 
 const { getMySales } = require('../controller/sales'); 
 
-const seller = Router();
+const sales = Router();
 
-seller.use(validateToken);
+sales.use(validateToken);
 
-seller.get('/orders', getMySales);
+sales.get('/orders', getMySales);
 
 module.exports = {
-  seller,
+  sales,
 };

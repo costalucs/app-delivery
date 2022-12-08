@@ -8,7 +8,7 @@ const userController = require('../controller/user');
 const { validateLogin } = require('../shared/middleware/auth');
 const { errorMiddleware } = require('../shared/middleware/error');
 
-const { seller } = require('../routes/seller.routes');
+const { sales } = require('../routes/sales.routes');
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.post('/create', userController.createUser);
 app.get('/me', userController.getMe);
 app.get('/get/sellers', userController.getSellers);
 
-app.use('/seller', seller);
+app.use(sales);
 
 app.use(errorMiddleware);
 
