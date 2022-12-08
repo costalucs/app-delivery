@@ -5,6 +5,5 @@ export default async function getMyOrders(token) {
     '/orders',
     { headers: { authorization: token } },
   );
-  console.log(orders);
   return orders.data;
 }

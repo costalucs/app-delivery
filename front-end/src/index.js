@@ -2,19 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import AuthProvider from './context/Auth.context';
-import CartProvider from './context/Cart.context';
+import AppProvider from './context';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <CartProvider>
-          <App />
-        </CartProvider>
-      </AuthProvider>
+      <AppProvider>
+        <App />
+      </AppProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),
