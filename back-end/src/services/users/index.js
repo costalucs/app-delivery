@@ -45,10 +45,10 @@ const getSellers = async (token) => {
 const create = async ({ name, email, password, role }) => {
   try {
     const md5password = md5(password);
-    const user = await model.users.create(
+    await model.users.create(
       { name, email, password: md5password, role: role || 'customer' },
     );
-    return { token: sign({ id: user.id, name: user.name, role: user.role }, jwtSecret) };
+    return await login(email, password);
   } catch (e) {
     throw new HttpException(409, 'Invalid new user');
   }
