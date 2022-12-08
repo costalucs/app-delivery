@@ -21,12 +21,14 @@ function Header() {
         >
           Produtos
         </Link>
-        <Link
-          to="/customer/orders"
-          data-testid="customer_products__element-navbar-link-orders"
-        >
-          Meus Pedidos
-        </Link>
+        {session.user.role === 'customer' && (
+
+          <Link
+            to="/customer/orders"
+            data-testid="customer_products__element-navbar-link-orders"
+          >
+            Meus Pedidos
+          </Link>)}
       </nav>
       <p
         data-testid="customer_products__element-navbar-user-full-name"
