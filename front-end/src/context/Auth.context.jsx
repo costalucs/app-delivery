@@ -21,7 +21,6 @@ function AuthProvider({ children }) {
       localStorage.setItem('user', JSON.stringify({ ...user, token: contextToken }));
     } else {
       contextLogout();
-      // should some how return message?
     }
   }
 
@@ -55,10 +54,8 @@ function AuthProvider({ children }) {
       sellers: async (token) => {
         try {
           const sellers = await getSellers(token);
-          console.log(sellers);
           return sellers;
         } catch (e) {
-          console.log(e);
           return false;
         }
       },
