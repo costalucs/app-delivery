@@ -14,7 +14,7 @@ async function getSalesByToken(token) {
       through: { attributes: ['quantity'] },
     }],
   });
-  return test
+  return test;
 }
 
 const createSale = async ({ sellerId, deliveryAddress, deliveryNumber, totalPrice },
