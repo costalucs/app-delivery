@@ -35,7 +35,7 @@ export default function OrdersProvider({ children }) {
     fillSales();
   }, [firstRender, token]);
 
-  const value = useMemo(() => ({ orders }), [orders]);
+  const value = useMemo(() => ({ orders }), [orders, token, firstRender]);
 
   return (
     <ordersContext.Provider value={ value }>{children}</ordersContext.Provider>
