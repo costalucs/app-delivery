@@ -1,4 +1,4 @@
-const { getSalesByToken, createSale } = require('../../services/sales');
+const { getSalesByToken, createSale: newSaleService } = require('../../services/sales');
 
 async function getMySales(req, res, next) {
   try {
@@ -10,12 +10,11 @@ async function getMySales(req, res, next) {
   }
 }
 
-
 const createSale = async (req, res, next) => {
   const userid = req.user.id;
   const { sale, productsList } = req.body;
   try {
-    const newSale = await createSale(sale, userid, productsList);
+    const newSale = await newSaleService(sale, userid, productsList);
     return res.status(201).json(newSale);
   } catch (error) {
     next(error);

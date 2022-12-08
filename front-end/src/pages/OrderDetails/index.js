@@ -17,7 +17,7 @@ function OrderDetails() {
         <h2>Detalhes do pedido</h2>
         <section>
           <div>
-            <p data-testid={ `` }>{myOrder.id}</p>
+            <p data-testid={ `${role} e o resto` }>{myOrder.id}</p>
             {/* if customer -> seller_id */}
             {/* data */}
             {/* status */}

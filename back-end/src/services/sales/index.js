@@ -41,4 +41,4 @@ const createSale = async ({ sellerId, deliveryAddress, deliveryNumber, totalPric
   return newSale;
 };
 
-module.exports = { createSale };
+module.exports = { getSalesByToken, createSale };
