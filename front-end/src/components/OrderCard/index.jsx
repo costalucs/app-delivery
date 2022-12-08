@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-export default function SalesCard({ sale, userRole = 'customer' }) {
-  const { id, status, saleDate, deliveryAddress, deliveryNumber, totalPrice } = sale;
+export default function OrderCard({ sale, userRole = 'customer' }) {
+  const { id, status, saleDate, address, totalPrice } = sale;
 
   return (
-    <Link to={ `/${userRole}/order/${id}` }>
+    <Link to={ `/${userRole}/orders/${id}` }>
       <div>
         <p
           data-testid={ `${userRole}_orders__element-order-id-${id}` }
@@ -33,7 +33,7 @@ export default function SalesCard({ sale, userRole = 'customer' }) {
           <p
             data-testid={ `${userRole}_orders__element-card-address-${id}` }
           >
-            {`${deliveryAddress}, ${deliveryNumber}`}
+            {address}
 
           </p>
         </div>
@@ -42,13 +42,12 @@ export default function SalesCard({ sale, userRole = 'customer' }) {
   );
 }
 
-SalesCard.propTypes = {
+OrderCard.propTypes = {
   sale: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
     saleDate: PropTypes.string.isRequired,
-    deliveryAddress: PropTypes.string.isRequired,
-    deliveryNumber: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
     totalPrice: PropTypes.string.isRequired,
   }).isRequired,
   userRole: PropTypes.string.isRequired,
