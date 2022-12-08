@@ -8,6 +8,7 @@ const model = require('../../database/models');
 const { HttpException } = require('../../shared/error');
 
 const { encode } = require('../../utils/encode');
+const { userRegisterSchema } = require('../../joivalidation/joiSchemas');
 
 const jwtSecret = fs.readFileSync(`${__dirname}/../../../jwt.evaluation.key`, 'utf-8');
 
@@ -20,7 +21,7 @@ const login = async (email, password) => {
   const passwordMd5 = encode(password);
   const user = await model.users.findOne({
     where: { [Op.and]: [{ email }, { password: passwordMd5 }] },
-    // attributes: { exclude: ['password', 'id'] },
+    attributes: { exclude: ['password'] },
   });
   if (!user) throw new HttpException(404, 'User not found');
 
@@ -44,6 +45,7 @@ const getSellers = async (token) => {
 
 const create = async ({ name, email, password, role }) => {
   try {
+    userRegisterSchema.validate({ email, password, name });
     const md5password = md5(password);
     await model.users.create(
       { name, email, password: md5password, role: role || 'customer' },
