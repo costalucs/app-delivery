@@ -13,9 +13,9 @@ async function getSalesByToken(token) {
   }
   const { dataValues } = await Models.sales.findAll({
     where: {
-      customerId: id,
+      userId: id,
     },
-    include: 'products',
+    // include: 'products',
   });
   return dataValues;
 }
