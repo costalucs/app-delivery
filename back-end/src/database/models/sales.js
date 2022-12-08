@@ -7,12 +7,13 @@ module.exports = (sequelize, DataTypes) => {
       totalPrice: { type: DataTypes.DECIMAL(10, 2), field: "total_price" },
       deliveryAddress: { type: DataTypes.STRING, field: "delivery_address" },
       deliveryNumber: { type: DataTypes.STRING, field: "delivery_number" },
-      saleDate: { type: DataTypes.DATE, field: "sale_date" },
-      status: { type: DataTypes.STRING, field: "status" },
+      saleDate: { type: DataTypes.DATE, field: "sale_date", defaultValue: DataTypes.NOW },
+      status: { type: DataTypes.STRING, field: "status", defaultValue: 'Pendente' },
     },
     {
       timestamps: false,
       tableName: "sales",
+      underscored: true,
     }
   );
 
