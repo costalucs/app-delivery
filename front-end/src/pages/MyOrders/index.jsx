@@ -1,17 +1,36 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import Header from '../../components/Header';
 import SaleCard from '../../components/OrderCard';
-import { useSales } from '../../context/Orders.context';
+import { useSession } from '../../context/Auth.context';
+import { useOrders } from '../../context/Orders.context';
 
 function MyOrders() {
-  const sales = useSales();
+  const sales = useOrders();
+  const session = useSession();
   return (
     <>
+      {(!session || !session.user) && <Redirect to="/login" />}
       <Header />
       <main>
-        {sales.map((sale) => (
-          <SaleCard key={ `sale-card-key-${sale.id}` } sale={ sale } />
-        ))}
+        {sales.length
+          && sales.map((sale) => {
+            if (session.user.role === 'seller') {
+              return (
+                <SaleCard
+                  key={ `sale-card-key-${sale.id}` }
+                  sale={ sale }
+                  userRole="seller"
+                />
+              );
+            }
+            return (
+              <SaleCard
+                key={ `sale-card-key-${sale.id}` }
+                sale={ sale }
+              />
+            );
+          })}
       </main>
     </>
   );

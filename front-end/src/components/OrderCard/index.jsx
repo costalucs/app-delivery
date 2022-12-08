@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-export default function SalesCard({ sale }) {
+export default function SalesCard({ sale, userRole = 'customer' }) {
   const { id, status, saleDate, deliveryAddress, deliveryNumber, totalPrice } = sale;
 
   return (
-    <Link to={ `/seller/order/${id}` }>
+    <Link to={ `/${userRole}/order/${id}` }>
       <div>
         <p
-          data-testid={ `seller_orders__element-order-id-${id}` }
+          data-testid={ `${userRole}_orders__element-order-id-${id}` }
         >
           {`Pedido ${id}`}
 
@@ -17,21 +17,21 @@ export default function SalesCard({ sale }) {
       </div>
       <div>
         <div>
-          <p data-testid={ `seller_orders__element-delivery-status-${id}` }>
+          <p data-testid={ `${userRole}_orders__element-delivery-status-${id}` }>
             {status}
           </p>
           <div>
-            <p data-testid={ `seller_orders__element-order-date-${id}` }>
+            <p data-testid={ `${userRole}_orders__element-order-date-${id}` }>
               {saleDate}
             </p>
-            <p data-testid={ `seller_orders__element-card-price-${id}` }>
+            <p data-testid={ `${userRole}_orders__element-card-price-${id}` }>
               {totalPrice}
             </p>
           </div>
         </div>
         <div>
           <p
-            data-testid={ `seller_orders__element-card-address-${id}` }
+            data-testid={ `${userRole}_orders__element-card-address-${id}` }
           >
             {`${deliveryAddress}, ${deliveryNumber}`}
 
@@ -51,4 +51,5 @@ SalesCard.propTypes = {
     deliveryNumber: PropTypes.string.isRequired,
     totalPrice: PropTypes.string.isRequired,
   }).isRequired,
+  userRole: PropTypes.string.isRequired,
 };

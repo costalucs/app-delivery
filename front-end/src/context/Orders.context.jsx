@@ -1,22 +1,18 @@
 import { createContext, useContext, useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSession } from './Auth.context';
-import { getMyOrders, getMySales } from '../helpers/api/sales';
+import getMyOrders from '../helpers/api/orders';
 
-const sellerContext = createContext({});
+const ordersContext = createContext({});
 
-export default function SellerProvider({ children }) {
+export default function OrdersProvider({ children }) {
   const session = useSession();
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    const { user: { role } } = session;
     async function fillSales() {
-      if (role === 'customers') {
+      if (session.user) {
         const response = await getMyOrders(session.token);
-        setOrders(response);
-      } else if (role === 'seller') {
-        const response = await getMySales(session.token);
         setOrders(response);
       } else {
         setOrders([]);
@@ -26,21 +22,21 @@ export default function SellerProvider({ children }) {
   }, [session]);
 
   const value = useMemo(() => {
-    if (session.user.role) {
+    if (session.user) {
       return orders;
     }
     return [];
   }, [session, orders]);
 
   return (
-    <sellerContext.Provider value={ value }>
+    <ordersContext.Provider value={ value }>
       {children}
-    </sellerContext.Provider>
+    </ordersContext.Provider>
   );
 }
 
-SellerProvider.propTypes = {
+OrdersProvider.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-export const useSales = () => ({ ...useContext(sellerContext).sales });
+export const useOrders = () => ({ ...useContext(ordersContext).sales });
