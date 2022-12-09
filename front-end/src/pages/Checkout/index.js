@@ -1,7 +1,7 @@
 import React from 'react';
 import FormCheckout from '../../components/FormCheckout';
 import Header from '../../components/Header';
-import ProductTable from '../../components/ProductTabale';
+import ProductTable from '../../components/ProductTable';
 import { useCart } from '../../context/Cart.context';
 import formatPrice from '../../helpers/mappers&formatters/formatPrice';
 
