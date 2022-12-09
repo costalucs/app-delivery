@@ -39,9 +39,7 @@ export async function getMyOrders(token) {
 export async function handleUpdate(orderId, userToken, newStatus) {
   await api.put(
     '/orders/update',
-    {
-      headers: { authorization: userToken },
-      body: { orderId, status: newStatus },
-    },
+    { orderId, status: newStatus },
+    { headers: { authorization: userToken } },
   );
 }
