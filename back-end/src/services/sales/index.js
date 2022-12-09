@@ -39,4 +39,10 @@ const createSale = async ({ sellerId, deliveryAddress, deliveryNumber, totalPric
   return newSale;
 };
 
-module.exports = { getSalesByToken, createSale };
+const updateSale = async (orderId, userId, newStatus) => {
+  const order = await sales.findByPk(orderId);
+  console.log(order);
+  return order;
+};
+
+module.exports = { getSalesByToken, createSale, updateSale };

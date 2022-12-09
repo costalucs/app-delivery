@@ -9,7 +9,7 @@ const sellsController = require('../controller/sales');
 const { validateLogin, validateToken } = require('../shared/middleware/auth');
 const { errorMiddleware } = require('../shared/middleware/error');
 
-const { getMySales } = require('../controller/sales');
+const { getMySales, updateSale } = require('../controller/sales');
 
 const app = express();
 
@@ -25,6 +25,7 @@ app.get('/me', userController.getMe);
 app.get('/get/sellers', userController.getSellers);
 
 app.get('/orders', getMySales);
+app.put('/orders/update', validateToken, updateSale)
 
 app.use(errorMiddleware);
 

@@ -1,4 +1,4 @@
-const { getSalesByToken, createSale: newSaleService } = require('../../services/sales');
+const { getSalesByToken, createSale: newSaleService, updateSale: updateSaleService } = require('../../services/sales');
 
 async function getMySales(req, res, next) {
   try {
@@ -21,4 +21,15 @@ const createSale = async (req, res, next) => {
   }
 };
 
-module.exports = { getMySales, createSale };
+const updateSale = async (req, res, next) => {
+  try {
+    const { user: { id }, body: { orderId, status } } = req;
+    const confirm = await updateSaleService(orderId, id, status);
+    return res.status(201).json(confirm);
+  } catch (e) {
+    next(e);
+  }
+
+};
+
+module.exports = { getMySales, createSale, updateSale };
