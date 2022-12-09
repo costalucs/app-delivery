@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { useOrders } from '../../context/Orders.context';
 import { useSession } from '../../context/Auth.context';
+import ProductTable from '../../components/ProductTable';
 import Header from '../../components/Header';
 
 function OrderDetails() {
@@ -27,7 +28,7 @@ function OrderDetails() {
   const ORDER_TESTID = `${role}_order_details__element-order-details-label-order-id`;
   const DATE_TESTID = `${role}-order_details__element-order-details-label-order-date`;
   const STS_TESTID = `${role}-order-details__element-order-details-label-delivery-status`;
-
+  const TOTAL_TESTID = `${role}_order_details__element-order-total-price`;
   return (
     <>
       <Header />
@@ -41,7 +42,7 @@ function OrderDetails() {
               >
                 {myOrder.id || ''}
               </p>
-              {/* {role === 'customer' && myOrder.sellerName} */}
+              {role !== 'seller' && <p>{myOrder.seller.name}</p>}
               <p
                 data-testid={ DATE_TESTID }
               >
@@ -55,11 +56,16 @@ function OrderDetails() {
               {/* if seller -> btn preparar + btn saiu para entrega */}
               {/* if customer -> btn marcar como entregue */}
             </div>
-            <div>
-              tabela de pedidos item(index) | descrição(nome do produto) |
-              quantidade | v. unitário | subtotal - item 1 - item 2
+            <tbody>
+              {myOrder.products.map(
+                (p, i) => <ProductTable key={ p.id } product={ p } index={ i } />,
+              )}
+            </tbody>
+            <div
+              data-testid={ TOTAL_TESTID }
+            >
+              {`Total: R$ ${myOrder.totalPrice}`}
             </div>
-            <span>float bottom right - total value</span>
           </section>
         </main>
       )}
