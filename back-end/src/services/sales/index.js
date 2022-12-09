@@ -39,7 +39,7 @@ const createSale = async ({ sellerId, deliveryAddress, deliveryNumber, totalPric
   return newSale;
 };
 
-const updateSale = async (orderId, userId, newStatus) => {
+const updateSale = async (orderId, _userId, _newStatus) => {
   const order = await sales.findByPk(orderId);
   console.log(order);
   return order;

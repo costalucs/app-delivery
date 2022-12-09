@@ -25,7 +25,7 @@ app.get('/me', userController.getMe);
 app.get('/get/sellers', userController.getSellers);
 
 app.get('/orders', getMySales);
-app.put('/orders/update', validateToken, updateSale)
+app.put('/orders/update', validateToken, updateSale);
 
 app.use(errorMiddleware);
 
