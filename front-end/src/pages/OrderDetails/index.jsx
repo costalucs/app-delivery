@@ -6,13 +6,9 @@ import ProductTable from '../../components/ProductTable';
 import Header from '../../components/Header';
 
 function OrderDetails() {
-  const {
-    params: { id },
-  } = useRouteMatch();
+  const { params: { id } } = useRouteMatch();
   const { orders } = useOrders();
-  const {
-    user: { role },
-  } = useSession();
+  const { user: { role } } = useSession();
 
   const [myOrder, setMyOrder] = useState({});
   const [loaded, setLoaded] = useState(false);
@@ -37,22 +33,10 @@ function OrderDetails() {
           <h2>Detalhes do pedido</h2>
           <section>
             <div>
-              <p
-                data-testid={ ORDER_TESTID }
-              >
-                {myOrder.id || ''}
-              </p>
+              <p data-testid={ ORDER_TESTID }>{myOrder.id}</p>
               {role !== 'seller' && <p>{myOrder.seller.name}</p>}
-              <p
-                data-testid={ DATE_TESTID }
-              >
-                {myOrder.date}
-              </p>
-              <p
-                data-testid={ STS_TESTID }
-              >
-                {myOrder.status}
-              </p>
+              <p data-testid={ DATE_TESTID }>{myOrder.date}</p>
+              <p data-testid={ STS_TESTID }>{myOrder.status}</p>
               {/* if seller -> btn preparar + btn saiu para entrega */}
               {/* if customer -> btn marcar como entregue */}
             </div>
@@ -61,9 +45,7 @@ function OrderDetails() {
                 (p, i) => <ProductTable key={ p.id } product={ p } index={ i } />,
               )}
             </tbody>
-            <div
-              data-testid={ TOTAL_TESTID }
-            >
+            <div data-testid={ TOTAL_TESTID }>
               {`Total: R$ ${myOrder.totalPrice}`}
             </div>
           </section>
