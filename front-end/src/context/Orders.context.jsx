@@ -6,7 +6,7 @@ import {
   useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { getMyOrders } from '../helpers/api/sales';
+import { getMyOrders, handleUpdate } from '../helpers/api/sales';
 import { useSession } from './Auth.context';
 
 const ordersContext = createContext({
@@ -40,6 +40,9 @@ export default function OrdersProvider({ children }) {
   const value = useMemo(() => ({
     orders,
     refresh: async () => { await fillSales(); },
+    updateOrder: async (orderId, userToken, newStatus) => {
+      await handleUpdate(orderId, userToken, newStatus);
+    },
   }), [sessionToken, orders]);
 
   return (
