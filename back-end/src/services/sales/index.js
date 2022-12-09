@@ -10,7 +10,7 @@ async function getSalesByToken(token) {
     include: [
       {
         association: 'products',
-        attributes: ['name', 'price'],
+        attributes: ['name', 'price', 'id'],
         through: { attributes: ['quantity'] },
       },
       { association: 'user', attributes: ['name', 'id'] },

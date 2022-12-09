@@ -29,6 +29,7 @@ export async function getMyOrders(token) {
         name: prod.name,
         price: prod.price,
         quantity: prod.salesProducts.quantity,
+        id: prod.id,
       })),
       totalPrice: formatPrice(Number(totalPrice)),
     };
