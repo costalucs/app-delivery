@@ -24,6 +24,7 @@ function OrderDetails() {
   useEffect(() => {
     if (orders.length > 0 && (role === 'customer' || role === 'seller')) {
       const found = orders.find((order) => order.id === Number(id));
+      console.log(found);
       setMyOrder(found);
       setLoaded(true);
     }
@@ -36,7 +37,7 @@ function OrderDetails() {
   const SEL_NAM_TID = 'customer_order_details__element-order-details-label-seller-name';
   const CUS_BTN_TID = 'customer_order_details__button-delivery-check';
   const SEL_PRE_TID = 'seller_order_details__button-preparing-check';
-  const SEL_DIP_TID = 'seller_order_details__button-dispatch-cehck';
+  const SEL_DIP_TID = 'seller_order_details__button-dispatch-check';
 
   async function handleDlvCk(e) {
     e.preventDefault();
@@ -64,11 +65,11 @@ function OrderDetails() {
           <h2>Detalhes do pedido</h2>
           <section>
             <div>
-              <p data-testid={ ORDER_TID }>{myOrder.id}</p>
+              <p data-testid={ ORDER_TID }>{` PEDIDO ${myOrder.id}`}</p>
               {role !== 'seller' && (
-                <p data-testid={ SEL_NAM_TID }>{myOrder.seller.name}</p>
+                <p data-testid={ SEL_NAM_TID }>{ `VENDEDOR: ${myOrder.seller.name}` }</p>
               )}
-              <p data-testid={ DATE_TID }>{myOrder.date}</p>
+              <p data-testid={ DATE_TID }>{ `REALIZADO EM: ${myOrder.saleDate}` }</p>
               <p data-testid={ SATUS_TID }>{myOrder.status}</p>
               {role === 'customer' && (
                 <button
