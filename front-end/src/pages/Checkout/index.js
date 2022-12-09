@@ -3,6 +3,7 @@ import FormCheckout from '../../components/FormCheckout';
 import Header from '../../components/Header';
 import ProductTable from '../../components/ProductTabale';
 import { useCart } from '../../context/Cart.context';
+import formatPrice from '../../helpers/mappers&formatters/formatPrice';
 
 function Checkout() {
   const { totalValue, cart } = useCart();
@@ -24,7 +25,7 @@ function Checkout() {
       <div
         data-testid="customer_checkout__element-order-total-price"
       >
-        {`Total: R$ ${(totalValue.toFixed(2).replace(/\./, ','))}`}
+        {`Total: R$ ${formatPrice(totalValue)}`}
       </div>
       <FormCheckout />
     </>

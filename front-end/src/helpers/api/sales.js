@@ -1,5 +1,6 @@
 import api from '.';
-import formatDate from '../formatDate';
+import formatDate from '../mappers&formatters/formatDate';
+import formatPrice from '../mappers&formatters/formatPrice';
 
 export const createSale = async (datas, token) => {
   const { data } = await api.post('/create/sale', datas, {
@@ -20,6 +21,7 @@ export async function getMyOrders(token) {
       products,
       seller,
       user,
+      totalPrice,
     } = order;
     return {
       ...order,
@@ -32,6 +34,7 @@ export async function getMyOrders(token) {
       })),
       seller: seller.name,
       user: user.name,
+      totalPrice: formatPrice(Number(totalPrice)),
     };
   });
 }
