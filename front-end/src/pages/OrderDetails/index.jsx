@@ -7,11 +7,19 @@ import Header from '../../components/Header';
 
 function OrderDetails() {
   const { params: { id } } = useRouteMatch();
-  const { orders } = useOrders();
-  const { user: { role } } = useSession();
+  const { orders, refresh, updateOrder } = useOrders();
+  const { user: { role }, token } = useSession();
 
   const [myOrder, setMyOrder] = useState({});
   const [loaded, setLoaded] = useState(false);
+
+  const [canDispatch, setOnTraffic] = useState(true);
+  const [canPrepare, setCanPrep] = useState(true);
+  const [canDeliver, setCanDlv] = useState(true);
+
+  useEffect(() => { setCanPrep(myOrder.status !== 'Pendente'); }, [myOrder]);
+  useEffect(() => { setOnTraffic(myOrder.status !== 'Preparando'); }, [myOrder]);
+  useEffect(() => { setCanDlv(myOrder.status !== 'Em Trânsito'); }, [myOrder]);
 
   useEffect(() => {
     if (orders.length > 0 && (role === 'customer' || role === 'seller')) {
@@ -21,36 +29,89 @@ function OrderDetails() {
     }
   }, [id, orders, role]);
 
-  const ORDER_TESTID = `${role}_order_details__element-order-details-label-order-id`;
-  const DATE_TESTID = `${role}-order_details__element-order-details-label-order-date`;
-  const STS_TESTID = `${role}-order-details__element-order-details-label-delivery-status`;
-  const TOTAL_TESTID = `${role}_order_details__element-order-total-price`;
+  const ORDER_TID = `${role}_order_details__element-order-details-label-order-id`;
+  const DATE_TID = `${role}_order_details__element-order-details-label-order-date`;
+  const SATUS_TID = `${role}_order_details__element-order-details-label-delivery-status`;
+  const TOTAL_TID = `${role}_order_details__element-order-total-price`;
+  const SEL_NAM_TID = 'customer_order_details__element-order-details-label-seller-name';
+  const CUS_BTN_TID = 'customer_order_details__button-delivery-check';
+  const SEL_PRE_TID = 'seller_order_details__button-preparing-check';
+  const SEL_DIP_TID = 'seller_order_details__button-dispatch-cehck';
+
+  async function handleDlvCk(e) {
+    e.preventDefault();
+    await updateOrder(id, token, 'Entregue');
+    await refresh();
+  }
+
+  async function handlePrep(e) {
+    e.preventDefault();
+    await updateOrder(id, token, 'Preparando');
+    await refresh();
+  }
+
+  async function handleTraf(e) {
+    e.preventDefault();
+    await updateOrder(id, token, 'Em Trânsito');
+    await refresh();
+  }
+
   return (
     <>
       <Header />
-      {loaded && (
+      {loaded ? (
         <main>
           <h2>Detalhes do pedido</h2>
           <section>
             <div>
-              <p data-testid={ ORDER_TESTID }>{myOrder.id}</p>
-              {role !== 'seller' && <p>{myOrder.seller.name}</p>}
-              <p data-testid={ DATE_TESTID }>{myOrder.date}</p>
-              <p data-testid={ STS_TESTID }>{myOrder.status}</p>
-              {/* if seller -> btn preparar + btn saiu para entrega */}
-              {/* if customer -> btn marcar como entregue */}
+              <p data-testid={ ORDER_TID }>{myOrder.id}</p>
+              {role !== 'seller' && (
+                <p data-testid={ SEL_NAM_TID }>{myOrder.seller.name}</p>
+              )}
+              <p data-testid={ DATE_TID }>{myOrder.date}</p>
+              <p data-testid={ SATUS_TID }>{myOrder.status}</p>
+              {role === 'customer' && (
+                <button
+                  data-testid={ CUS_BTN_TID }
+                  type="button"
+                  onClick={ handleDlvCk }
+                  disabled={ canDeliver }
+                >
+                  Marcar como entregue
+                </button>
+              )}
+              {role === 'seller' && (
+                <>
+                  <button
+                    data-testid={ SEL_PRE_TID }
+                    type="button"
+                    onClick={ handlePrep }
+                    disabled={ canPrepare }
+                  >
+                    PREPARAR PEDIDO
+                  </button>
+                  <button
+                    data-testid={ SEL_DIP_TID }
+                    type="button"
+                    onClick={ handleTraf }
+                    disabled={ canDispatch }
+                  >
+                    SAIU PARA ENTREGA
+                  </button>
+                </>
+              )}
             </div>
             <tbody>
               {myOrder.products.map(
                 (p, i) => <ProductTable key={ p.id } product={ p } index={ i } />,
               )}
             </tbody>
-            <div data-testid={ TOTAL_TESTID }>
+            <div data-testid={ TOTAL_TID }>
               {`Total: R$ ${myOrder.totalPrice}`}
             </div>
           </section>
         </main>
-      )}
+      ) : <p>loading component</p>}
     </>
   );
 }
