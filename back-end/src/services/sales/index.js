@@ -8,11 +8,19 @@ async function getSalesByToken(token) {
     where: {
       [column]: user.id,
     },
+    attributes: { exclude: ['sellerId', 'userId'] },
     include: [{
       association: 'products',
       attributes: ['name', 'price'],
       through: { attributes: ['quantity'] },
-    }],
+    }, {
+      association: "user",
+      attributes: ['name']
+    },
+  {
+    association: 'seller',
+    attributes: ['name']
+  }],
   });
   return test;
 }

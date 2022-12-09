@@ -18,6 +18,8 @@ export async function getMyOrders(token) {
       deliveryAddress,
       deliveryNumber,
       products,
+      seller,
+      user,
     } = order;
     return {
       ...order,
@@ -28,6 +30,8 @@ export async function getMyOrders(token) {
         price: prod.price,
         quantity: prod.salesProducts.quantity,
       })),
+      seller: seller.name,
+      user: user.name,
     };
   });
 }
