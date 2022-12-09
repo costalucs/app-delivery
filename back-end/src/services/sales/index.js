@@ -1,4 +1,5 @@
 const { sales, salesProducts } = require('../../database/models');
+const { HttpException } = require('../../shared/error');
 const { findByToken } = require('../users');
 
 async function getSalesByToken(token) {
@@ -39,10 +40,22 @@ const createSale = async ({ sellerId, deliveryAddress, deliveryNumber, totalPric
   return newSale;
 };
 
-const updateSale = async (orderId, _userId, _newStatus) => {
-  const order = await sales.findByPk(orderId);
-  console.log(order);
-  return order;
+const updateSale = async (orderId, userId, newStatus) => {
+  const { dataValues: order } = await sales.findByPk(orderId);
+  if (order.sellerId === userId) {
+    if (newStatus === 'Preparando' || newStatus === 'Em Trânsito') {
+      const updated = await sales.update({ status: newStatus }, { where: { id: orderId } });
+      console.log(updated);
+      return updated;
+    }
+    throw new HttpException(400, 'Update not allowed based on user\'s role');
+  }
+  if (newStatus === 'Entregue') {
+    const updated = await sales.update({ status: newStatus }, { where: { id: orderId } });
+    console.log(updated);
+    return updated;
+  }
+  throw new HttpException(400, 'Update not allowed based on user\'s role');
 };
 
 module.exports = { getSalesByToken, createSale, updateSale };
