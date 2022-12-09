@@ -5,5 +5,5 @@ export default function formatDate(dateString) {
     (date.getDate()).toString().padStart(2, '0'),
     (date.getMonth()).toString().padStart(2, '0'),
     date.getFullYear(),
-  ].join('-');
+  ].join('/');
 }
