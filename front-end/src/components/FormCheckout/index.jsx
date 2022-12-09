@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSession } from '../../context/Auth.context';
 import { useCart } from '../../context/Cart.context';
+import { useOrders } from '../../context/Orders.context';
 import { createSale } from '../../helpers/api/sales';
 
 function FormCheckout() {
   const session = useSession();
   const navigate = useHistory();
   const { cart, totalValue } = useCart();
+  const { refresh } = useOrders();
+
   const [sellers, setSellers] = useState([]);
   const [formValues, setFormValues] = useState({
     sellerId: '',
@@ -32,6 +35,7 @@ function FormCheckout() {
     };
     try {
       const { id } = await createSale(dados, session.token);
+      await refresh();
       navigate.push(`/customer/orders/${id}`);
     } catch (error) {
       console.log(error);
