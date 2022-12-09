@@ -19,8 +19,6 @@ export async function getMyOrders(token) {
       deliveryAddress,
       deliveryNumber,
       products,
-      seller,
-      user,
       totalPrice,
     } = order;
     return {
@@ -32,8 +30,6 @@ export async function getMyOrders(token) {
         price: prod.price,
         quantity: prod.salesProducts.quantity,
       })),
-      seller: seller.name,
-      user: user.name,
       totalPrice: formatPrice(Number(totalPrice)),
     };
   });
