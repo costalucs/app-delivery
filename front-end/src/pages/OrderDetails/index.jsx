@@ -18,11 +18,7 @@ function OrderDetails() {
   const [cantDeliver, setCantDlv] = useState(true);
 
   useEffect(() => { setCantPrep(myOrder.status !== 'Pendente'); }, [myOrder]);
-  useEffect(() => {
-    setCantDispatch(
-      (myOrder.status !== 'Preparando') && (myOrder.status !== 'Pendente'),
-    );
-  }, [myOrder]);
+  useEffect(() => { setCantDispatch(myOrder.status !== 'Preparando'); }, [myOrder]);
   useEffect(() => { setCantDlv(myOrder.status !== 'Em Trânsito'); }, [myOrder]);
 
   useEffect(() => {
