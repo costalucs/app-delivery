@@ -40,22 +40,13 @@ const createSale = async ({ sellerId, deliveryAddress, deliveryNumber, totalPric
   return newSale;
 };
 
-const updateSale = async (orderId, userId, newStatus) => {
-  const { dataValues: order } = await sales.findByPk(orderId);
-  if (order.sellerId === userId) {
-    if (newStatus === 'Preparando' || newStatus === 'Em Trânsito') {
-      const updated = await sales.update({ status: newStatus }, { where: { id: orderId } });
-      console.log(updated);
-      return updated;
-    }
-    throw new HttpException(400, 'Update not allowed based on user\'s role');
-  }
-  if (newStatus === 'Entregue') {
-    const updated = await sales.update({ status: newStatus }, { where: { id: orderId } });
-    console.log(updated);
-    return updated;
-  }
-  throw new HttpException(400, 'Update not allowed based on user\'s role');
+const updateSale = async (orderId, newStatus) => {
+  const updated = await sales.update(
+    { status: newStatus },
+    { where: { id: orderId } },
+  );
+  if (updated[0] === 1) return true;
+  throw new HttpException(500, 'Record not updated');
 };
 
 module.exports = { getSalesByToken, createSale, updateSale };

@@ -27,8 +27,8 @@ const createSale = async (req, res, next) => {
 
 const updateSale = async (req, res, next) => {
   try {
-    const { user: { id }, body: { orderId, status } } = req;
-    const confirm = await updateSaleService(orderId, id, status);
+    const { orderId, status } = req.body;
+    const confirm = await updateSaleService(orderId, status);
     return res.status(201).json(confirm);
   } catch (e) {
     next(e);
