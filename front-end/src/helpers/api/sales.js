@@ -31,7 +31,7 @@ export async function getMyOrders(token) {
         quantity: prod.salesProducts.quantity,
         id: prod.id,
       })),
-      totalPrice: formatPrice(Number(totalPrice)),
+      totalPrice: formatPrice(totalPrice),
     };
   });
 }
