@@ -13,13 +13,17 @@ function OrderDetails() {
   const [myOrder, setMyOrder] = useState({});
   const [loaded, setLoaded] = useState(false);
 
-  const [canDispatch, setOnTraffic] = useState(true);
-  const [canPrepare, setCanPrep] = useState(true);
-  const [canDeliver, setCanDlv] = useState(true);
+  const [cantDispatch, setCantDispatch] = useState(true);
+  const [cantPrepare, setCantPrep] = useState(true);
+  const [cantDeliver, setCantDlv] = useState(true);
 
-  useEffect(() => { setCanPrep(myOrder.status !== 'Pendente'); }, [myOrder]);
-  useEffect(() => { setOnTraffic(myOrder.status !== 'Preparando'); }, [myOrder]);
-  useEffect(() => { setCanDlv(myOrder.status !== 'Em Trânsito'); }, [myOrder]);
+  useEffect(() => { setCantPrep(myOrder.status !== 'Pendente'); }, [myOrder]);
+  useEffect(() => {
+    setCantDispatch(
+      (myOrder.status !== 'Preparando') && (myOrder.status !== 'Pendente'),
+    );
+  }, [myOrder]);
+  useEffect(() => { setCantDlv(myOrder.status !== 'Em Trânsito'); }, [myOrder]);
 
   useEffect(() => {
     if (orders.length > 0 && (role === 'customer' || role === 'seller')) {
@@ -76,7 +80,7 @@ function OrderDetails() {
                   data-testid={ CUS_BTN_TID }
                   type="button"
                   onClick={ handleDlvCk }
-                  disabled={ canDeliver }
+                  disabled={ cantDeliver }
                 >
                   Marcar como entregue
                 </button>
@@ -87,7 +91,7 @@ function OrderDetails() {
                     data-testid={ SEL_PRE_TID }
                     type="button"
                     onClick={ handlePrep }
-                    disabled={ canPrepare }
+                    disabled={ cantPrepare }
                   >
                     PREPARAR PEDIDO
                   </button>
@@ -95,7 +99,7 @@ function OrderDetails() {
                     data-testid={ SEL_DIP_TID }
                     type="button"
                     onClick={ handleTraf }
-                    disabled={ canDispatch }
+                    disabled={ cantDispatch }
                   >
                     SAIU PARA ENTREGA
                   </button>
