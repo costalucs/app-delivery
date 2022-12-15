@@ -18,3 +18,8 @@ export const registerUser = async (user) => {
   if (error) throw error;
   return api.post('/create', user);
 };
+
+export const getSellers = async (token) => {
+  const { data } = await api.get('/get/sellers', { headers: { authorization: token } });
+  return data;
+};

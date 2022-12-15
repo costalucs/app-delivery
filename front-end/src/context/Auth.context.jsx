@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { getMe, login as logMe, registerUser } from '../helpers/api/users';
+import { getMe, getSellers, login as logMe, registerUser } from '../helpers/api/users';
 
 const AuthContext = createContext({});
 
@@ -21,7 +21,6 @@ function AuthProvider({ children }) {
       localStorage.setItem('user', JSON.stringify({ ...user, token: contextToken }));
     } else {
       contextLogout();
-      // should some how return message?
     }
   }
 
@@ -49,6 +48,14 @@ function AuthProvider({ children }) {
         } catch (e) {
           console.log(e);
           contextLogout();
+          return false;
+        }
+      },
+      sellers: async (token) => {
+        try {
+          const sellers = await getSellers(token);
+          return sellers;
+        } catch (e) {
           return false;
         }
       },

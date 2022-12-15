@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Checkout from './pages/Checkout';
 import Login from './pages/Login';
-// import MyOrders from './pages/MyOrders';
+import MyOrders from './pages/MyOrders';
 import OrderDetails from './pages/OrderDetails';
 import Products from './pages/Products';
 
@@ -17,9 +17,9 @@ function App() {
       <Route exact path="/register" component={ Login } />
       <Route exact path="/customer/products" component={ Products } />
       <Route exact path="/customer/checkout" component={ Checkout } />
-      {/* <Route exact path="/customer/orders/" component={ MyOrders } /> */}
-      {/* <Route exact path="/seller/orders/" component={ MyOrders } /> */}
+      <Route exact path="/customer/orders/" component={ MyOrders } />
       <Route exact path="/customer/orders/:id" component={ OrderDetails } />
+      <Route exact path="/seller/orders/" component={ MyOrders } />
       <Route exact path="/seller/orders/:id" component={ OrderDetails } />
     </Switch>
   );

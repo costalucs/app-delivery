@@ -4,7 +4,10 @@ import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
-import { loginSchema, registerSchema } from '../../helpers/validations/credentials';
+import {
+  loginSchema,
+  registerSchema,
+} from '../../helpers/validations/credentials';
 
 import { useSession } from '../../context/Auth.context';
 
@@ -24,14 +27,19 @@ function Login() {
   }, [pathname]);
 
   const handleLogin = async () => {
-    const confirm = await session.login({ email: emailInput, password: passwordInput });
+    const confirm = await session.login({
+      email: emailInput,
+      password: passwordInput,
+    });
     if (!confirm) setLoginValidation(true);
   };
 
   const handleSignUp = async () => {
-    const confirm = await session.register(
-      { email: emailInput, password: passwordInput, name: userName },
-    );
+    const confirm = await session.register({
+      email: emailInput,
+      password: passwordInput,
+      name: userName,
+    });
     if (!confirm) setLoginValidation(true);
   };
 
@@ -40,15 +48,21 @@ function Login() {
       datatestid: 'common_login__button-login',
       name: 'Login',
       type: 'submit',
-      state: !loginSchema.isValidSync({ email: emailInput, password: passwordInput }),
+      state: !loginSchema.isValidSync({
+        email: emailInput,
+        password: passwordInput,
+      }),
       handle: handleLogin,
-    } : {
+    }
+    : {
       datatestid: 'common_register__button-register',
       name: 'Cadastrar',
       type: 'submit',
-      state: !registerSchema.isValidSync(
-        { email: emailInput, password: passwordInput, name: userName },
-      ),
+      state: !registerSchema.isValidSync({
+        email: emailInput,
+        password: passwordInput,
+        name: userName,
+      }),
       handle: handleSignUp,
     };
 
@@ -68,17 +82,24 @@ function Login() {
 
   return (
     <div>
-      {session.user.id && <Redirect to="/customer/products" />}
-      {location === 'register' && <Input
-        datatestid="common_register__input-name"
-        label="Nome"
-        id="name-input-text"
-        type="email"
-        value={ userName }
-        name="name"
-        placeHolder="Your name here"
-        handle={ handleChange }
-      />}
+      {session.user.id
+        && (session.user.role === 'seller' ? (
+          <Redirect to="/seller/orders" />
+        ) : (
+          <Redirect to="/customer/products" />
+        ))}
+      {location === 'register' && (
+        <Input
+          datatestid="common_register__input-name"
+          label="Nome"
+          id="name-input-text"
+          type="email"
+          value={ userName }
+          name="name"
+          placeHolder="Your name here"
+          handle={ handleChange }
+        />
+      )}
       <Input
         datatestid={ `common_${location}__input-email` }
         label="Login"
@@ -103,11 +124,15 @@ function Login() {
       <Button { ...buttonOptions } />
       {pathname === '/login' && <Button { ...buttonRegister } />}
 
-      {isLoginInvalid && location === 'login'
-      && <p data-testid="common_login__element-invalid-email">Login Inválido</p>}
+      {isLoginInvalid && location === 'login' && (
+        <p data-testid="common_login__element-invalid-email">Login Inválido</p>
+      )}
 
-      {isLoginInvalid && location === 'register'
-      && <p data-testid="common_register__element-invalid_register">Registro Inválido</p>}
+      {isLoginInvalid && location === 'register' && (
+        <p data-testid="common_register__element-invalid_register">
+          Registro Inválido
+        </p>
+      )}
     </div>
   );
 }

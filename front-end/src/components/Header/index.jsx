@@ -5,15 +5,9 @@ import { useSession } from '../../context/Auth.context';
 function Header() {
   const session = useSession();
 
-  const { name } = session.user;
+  const { name, role } = session.user;
   return (
     <header>
-      {/* <p>
-        Olá,
-        {' '}
-        {name}
-        !
-      </p> */}
       <nav>
         <Link
           to="/customer/products"
@@ -22,7 +16,7 @@ function Header() {
           Produtos
         </Link>
         <Link
-          to="/customer/orders"
+          to={ `/${role}/orders` }
           data-testid="customer_products__element-navbar-link-orders"
         >
           Meus Pedidos
