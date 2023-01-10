@@ -6,6 +6,7 @@ header {
     height: 105px;
     display: flex;
     justify-content: space-between;
+    top: 0;
   }
   
   nav {

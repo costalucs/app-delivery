@@ -12,7 +12,7 @@ function Checkout() {
     <div className="checkout-container">
       <Header />
       <section>
-        <div className="input-container-checkout">
+        <div className="input-container-checkout first">
           <tr>
             <th>Item</th>
             <th>Descrição</th>
