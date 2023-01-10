@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import ProductCard from '../../components/ProductCard';
 import { useCart } from '../../context/Cart.context';
 import { getProducts } from '../../helpers/api/products';
+import './index.css';
 
 export default function Products() {
   const navigate = useHistory();
@@ -19,14 +20,15 @@ export default function Products() {
   }
 
   return (
-    <>
+    <div className="products__container">
       <Header />
-      <div>
+      <div className="product_card_list">
         {items?.map((i, index) => <ProductCard key={ index } { ...i } />)}
       </div>
       <div>
         <button
           type="button"
+          className="carrinho_button"
           data-testid="customer_products__button-cart"
           onClick={ checkoutButton }
           disabled={ totalValue === 0 }
@@ -34,13 +36,13 @@ export default function Products() {
           Carrinho:
           {' '}
           <span
+            className="title_carrinho"
             data-testid="customer_products__checkout-bottom-value"
           >
-            { `${totalValue.toFixed(2).replace(/\./, ',')}` }
+            {`${totalValue.toFixed(2).replace(/\./, ',')}`}
           </span>
         </button>
       </div>
-
-    </>
+    </div>
   );
 }

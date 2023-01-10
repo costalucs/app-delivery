@@ -1,0 +1,57 @@
+header {
+    z-index: 1000000;
+    position: fixed;
+    width: 100%;
+    background-color: #ffcc00;
+    height: 105px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  nav {
+    display: flex;
+  }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+    font-size: 24px;
+  }
+  
+  .nav_link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 105px;
+    color: #333
+  }
+  
+  .segunda_coluna {
+    display: flex;
+  }
+  
+  .products {
+    width: 367px;
+    background-color: #e6b400;
+    
+  }
+  
+  .orders {
+    width: 367px;
+    background-color: #ffcc00;
+  }
+  
+  .nome {
+    width: 359px;
+    background-color: #ffcc00;
+    font-size: 20px;
+  }
+  
+  .sair {
+    width: 180px;
+    background-color: #333;
+    color: #ffcc00;
+  }
+
+  

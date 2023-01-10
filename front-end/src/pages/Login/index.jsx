@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
-
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import './index.css';
 
 import {
   loginSchema,
@@ -71,7 +71,10 @@ function Login() {
     name: 'Register',
     type: 'button',
     state: false,
-    handle: () => navigate.push('/register'),
+    handle: () => {
+      setLoginValidation(false);
+      navigate.push('/register');
+    },
   };
 
   const handleChange = ({ target: { value, name } }) => {
@@ -81,58 +84,70 @@ function Login() {
   };
 
   return (
-    <div>
-      {session.user.id
-        && (session.user.role === 'seller' ? (
-          <Redirect to="/seller/orders" />
-        ) : (
-          <Redirect to="/customer/products" />
-        ))}
-      {location === 'register' && (
-        <Input
-          datatestid="common_register__input-name"
-          label="Nome"
-          id="name-input-text"
-          type="email"
-          value={ userName }
-          name="name"
-          placeHolder="Your name here"
-          handle={ handleChange }
-        />
-      )}
-      <Input
-        datatestid={ `common_${location}__input-email` }
-        label="Login"
-        id={ `${location}-email-input-text` }
-        type="email"
-        value={ emailInput }
-        name="email"
-        placeHolder="email@email.com"
-        handle={ handleChange }
-      />
-      <Input
-        datatestid={ `common_${location}__input-password` }
-        label="Password"
-        name="password"
-        id={ `${location}-password-input-text` }
-        type="password"
-        value={ passwordInput }
-        handle={ handleChange }
-        placeHolder="Password"
-      />
+    <div className="fullscreen">
+      <div className="input-container">
+        {session.user.id
+          && (session.user.role === 'seller' ? (
+            <Redirect to="/seller/orders" />
+          ) : (
+            <Redirect to="/customer/products" />
+          ))}
+        {location === 'register' && (
+          <div className="input-box-container">
+            <Input
+              className="input_login"
+              datatestid="common_register__input-name"
+              label="Nome"
+              id="name-input-text"
+              type="email"
+              value={ userName }
+              name="name"
+              placeHolder="Your name here"
+              handle={ handleChange }
+            />
+          </div>
+        )}
+        <div className="input-box-container">
+          <Input
+            datatestid={ `common_${location}__input-email` }
+            className="input_login"
+            label="Login"
+            id={ `${location}-email-input-text` }
+            type="email"
+            value={ emailInput }
+            name="email"
+            placeHolder="email@email.com"
+            handle={ handleChange }
+          />
+          <Input
+            className="input_login"
+            datatestid={ `common_${location}__input-password` }
+            label="Password"
+            name="password"
+            id={ `${location}-password-input-text` }
+            type="password"
+            value={ passwordInput }
+            handle={ handleChange }
+            placeHolder="Password"
+          />
+        </div>
 
-      <Button { ...buttonOptions } />
-      {pathname === '/login' && <Button { ...buttonRegister } />}
+        <div className="buttons-container">
+          <Button { ...buttonOptions } />
+          {pathname === '/login' && <Button { ...buttonRegister } />}
+        </div>
 
-      {isLoginInvalid && location === 'login' && (
-        <p data-testid="common_login__element-invalid-email">Login Inválido</p>
-      )}
-
-      {isLoginInvalid && location === 'register' && (
-        <p data-testid="common_register__element-invalid_register">
-          Registro Inválido
-        </p>
-      )}
+        <div className="error-message-container">
+          {isLoginInvalid && location === 'login' && (
+            <p data-testid="common_login__element-invalid-email">Login Inválido</p>
+          )}
+          {isLoginInvalid && location === 'register' && (
+            <p data-testid="common_register__element-invalid_register">
+              Registro Inválido
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

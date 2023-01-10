@@ -1,0 +1,101 @@
+.input-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  padding: 50px 0px 30px 0px;
+  background-color: #ededed;
+  width: 700px;
+  border-radius: 20px;
+  border: 2px solid #333;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  align-items: center;
+  width: max-content;
+  font-weight: bold;
+}
+
+input {
+
+  border-radius: 6px;
+  border: 2px solid #333;
+}
+
+input:focus-visible {
+  border: 2px solid #ffcc00;
+  outline: 0.5px solid #ffcc00;
+}
+
+.input-box-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
+}
+
+button {
+  /* Resetando CSS do botão */
+  appearance: none;
+  border: none;
+  padding: 0;
+
+  /* Iniciando novo CSS do botão */
+  padding: 12px 20px;
+  background-color: #333;
+  color: #ffcc00;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #ffcc00;
+  color: #333;
+}
+
+.disabled {
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.disabled:hover {
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.error-message-container {
+  height: 21px;
+  display: flex;
+  justify-content: center;
+
+}
+
+.error-message-container>p {
+  padding: 0;
+  margin: 0;
+  color: #ff0033;
+  font-weight: 500;
+}
+
+.fullscreen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffcc00;
+}
+
+.input_login {
+  width: 400px;
+  padding: 6px 12px;
+}

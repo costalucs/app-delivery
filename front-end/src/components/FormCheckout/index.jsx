@@ -4,6 +4,7 @@ import { useSession } from '../../context/Auth.context';
 import { useCart } from '../../context/Cart.context';
 import { useOrders } from '../../context/Orders.context';
 import { createSale } from '../../helpers/api/sales';
+import './index.css';
 
 function FormCheckout() {
   const session = useSession();
@@ -44,49 +45,51 @@ function FormCheckout() {
 
   return (
     <form action="">
-      <label htmlFor="seller-select">
-        Vendedor
-        <select
-          id="seller-select"
-          name="sellerId"
-          data-testid="customer_checkout__select-seller"
-          onChange={ handleChange }
+      <div className="input-container-checkout">
+        <label htmlFor="seller-select">
+          Vendedor
+          <select
+            id="seller-select"
+            name="sellerId"
+            data-testid="customer_checkout__select-seller"
+            onChange={ handleChange }
+          >
+            <option disabled selected value> -- select an option -- </option>
+            {sellers.map(({ id, name }) => (
+              <option key={ id } value={ id }>
+                {name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label htmlFor="address-input">
+          Endereço
+          <input
+            type="text"
+            id="address-input"
+            name="deliveryAddress"
+            data-testid="customer_checkout__input-address"
+            onChange={ handleChange }
+          />
+        </label>
+        <label htmlFor="number-input">
+          Número
+          <input
+            type="number"
+            id="number-input"
+            name="deliveryNumber"
+            data-testid="customer_checkout__input-address-number"
+            onChange={ handleChange }
+          />
+        </label>
+        <button
+          type="button"
+          onClick={ handleClick }
+          data-testid="customer_checkout__button-submit-order"
         >
-          <option disabled selected value> -- select an option -- </option>
-          {sellers.map(({ id, name }) => (
-            <option key={ id } value={ id }>
-              {name}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label htmlFor="address-input">
-        Endereço
-        <input
-          type="text"
-          id="address-input"
-          name="deliveryAddress"
-          data-testid="customer_checkout__input-address"
-          onChange={ handleChange }
-        />
-      </label>
-      <label htmlFor="number-input">
-        Número
-        <input
-          type="number"
-          id="number-input"
-          name="deliveryNumber"
-          data-testid="customer_checkout__input-address-number"
-          onChange={ handleChange }
-        />
-      </label>
-      <button
-        type="button"
-        onClick={ handleClick }
-        data-testid="customer_checkout__button-submit-order"
-      >
-        Finalizar Pedido
-      </button>
+          Finalizar Pedido
+        </button>
+      </div>
     </form>
   );
 }

@@ -9,26 +9,30 @@ function Checkout() {
   const { totalValue, cart } = useCart();
 
   return (
-    <>
+    <div className="checkout-container">
       <Header />
-      <tr>
-        <th>Item</th>
-        <th>Descrição</th>
-        <th>Quantidade</th>
-        <th>Valor Unitário</th>
-        <th>Sub-total</th>
-        <th>Remover Item</th>
-      </tr>
-      <tbody>
-        {cart.map((p, i) => <ProductTable key={ p.id } product={ p } index={ i } />)}
-      </tbody>
-      <div
-        data-testid="customer_checkout__element-order-total-price"
-      >
-        {`Total: R$ ${formatPrice(totalValue)}`}
-      </div>
+      <section>
+        <div className="input-container-checkout">
+          <tr>
+            <th>Item</th>
+            <th>Descrição</th>
+            <th>Quantidade</th>
+            <th>Valor Unitário</th>
+            <th>Sub-total</th>
+            <th>Remover Item</th>
+          </tr>
+          <tbody>
+            {cart.map((p, i) => <ProductTable key={ p.id } product={ p } index={ i } />)}
+          </tbody>
+          <div
+            data-testid="customer_checkout__element-order-total-price"
+          >
+            {`Total: R$ ${formatPrice(totalValue)}`}
+          </div>
+        </div>
+      </section>
       <FormCheckout />
-    </>
+    </div>
   );
 }
 

@@ -4,6 +4,7 @@ export default function Button({ datatestid, type, name, state, handle }) {
   return (
     <button
       data-testid={ datatestid }
+      className={ state ? 'disabled' : '' }
       type={ type === 'submit' ? 'submit' : 'button' }
       disabled={ state }
       onClick={ handle }

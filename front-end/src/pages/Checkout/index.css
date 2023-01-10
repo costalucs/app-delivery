@@ -1,0 +1,20 @@
+.checkout-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 130px;
+    padding: 50px 0px 30px 0px;
+    background-color: #ededed;
+    /* height: 100px; */
+    width: 700px;
+    border-radius: 20px;
+    border: 2px solid #333;
+  }
+  
+  .checkout_card_list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    row-gap: 40px;
+    padding-top: 125px;
+    padding-bottom: 40px;
+  }

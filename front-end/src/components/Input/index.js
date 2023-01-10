@@ -7,6 +7,7 @@ export default function Input({
       {label}
       <input
         id={ id }
+        className="input_login"
         data-testid={ datatestid }
         placeholder={ placeHolder }
         type={ type }

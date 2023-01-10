@@ -62,55 +62,57 @@ function OrderDetails() {
       <Header />
       {loaded ? (
         <main>
-          <h2>Detalhes do pedido</h2>
-          <section>
-            <div>
-              <p data-testid={ ORDER_TID }>{` PEDIDO ${myOrder.id}`}</p>
-              {role !== 'seller' && (
-                <p data-testid={ SEL_NAM_TID }>{ `VENDEDOR: ${myOrder.seller.name}` }</p>
-              )}
-              <p data-testid={ DATE_TID }>{ `REALIZADO EM: ${myOrder.saleDate}` }</p>
-              <p data-testid={ SATUS_TID }>{myOrder.status}</p>
-              {role === 'customer' && (
-                <button
-                  data-testid={ CUS_BTN_TID }
-                  type="button"
-                  onClick={ handleDlvCk }
-                  disabled={ cantDeliver }
-                >
-                  Marcar como entregue
-                </button>
-              )}
-              {role === 'seller' && (
-                <>
+          <div>
+            <h2>Detalhes do pedido</h2>
+            <section>
+              <div>
+                <p data-testid={ ORDER_TID }>{` PEDIDO ${myOrder.id}`}</p>
+                {role !== 'seller' && (
+                  <p data-testid={ SEL_NAM_TID }>{`VENDEDOR: ${myOrder.seller.name}`}</p>
+                )}
+                <p data-testid={ DATE_TID }>{ `REALIZADO EM: ${myOrder.saleDate}` }</p>
+                <p data-testid={ SATUS_TID }>{myOrder.status}</p>
+                {role === 'customer' && (
                   <button
-                    data-testid={ SEL_PRE_TID }
+                    data-testid={ CUS_BTN_TID }
                     type="button"
-                    onClick={ handlePrep }
-                    disabled={ cantPrepare }
+                    onClick={ handleDlvCk }
+                    disabled={ cantDeliver }
                   >
-                    PREPARAR PEDIDO
+                    Marcar como entregue
                   </button>
-                  <button
-                    data-testid={ SEL_DIP_TID }
-                    type="button"
-                    onClick={ handleTraf }
-                    disabled={ cantDispatch }
-                  >
-                    SAIU PARA ENTREGA
-                  </button>
-                </>
-              )}
-            </div>
-            <tbody>
-              {myOrder.products.map(
-                (p, i) => <ProductTable key={ p.id } product={ p } index={ i } />,
-              )}
-            </tbody>
-            <div data-testid={ TOTAL_TID }>
-              {`Total: R$ ${myOrder.totalPrice}`}
-            </div>
-          </section>
+                )}
+                {role === 'seller' && (
+                  <>
+                    <button
+                      data-testid={ SEL_PRE_TID }
+                      type="button"
+                      onClick={ handlePrep }
+                      disabled={ cantPrepare }
+                    >
+                      PREPARAR PEDIDO
+                    </button>
+                    <button
+                      data-testid={ SEL_DIP_TID }
+                      type="button"
+                      onClick={ handleTraf }
+                      disabled={ cantDispatch }
+                    >
+                      SAIU PARA ENTREGA
+                    </button>
+                  </>
+                )}
+              </div>
+              <tbody>
+                {myOrder.products.map(
+                  (p, i) => <ProductTable key={ p.id } product={ p } index={ i } />,
+                )}
+              </tbody>
+              <div data-testid={ TOTAL_TID }>
+                {`Total: R$ ${myOrder.totalPrice}`}
+              </div>
+            </section>
+          </div>
         </main>
       ) : <p>loading component</p>}
     </>
