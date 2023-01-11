@@ -1,0 +1,8 @@
+.orders_list__wrapper {
+    padding-top: 125px;
+    padding-left: 80px;
+    padding-right: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
+  }

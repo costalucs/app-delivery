@@ -1,0 +1,100 @@
+.order_details__wrapper {
+    padding-top: 125px;
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+  
+  .order_details {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+  
+  .table_row_header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 20px;
+    background-color: #ededed;
+    font-size: 18px;
+  }
+  
+  .table_row_header > p:first-child {
+    padding-left: 20px;
+    font-weight: bold;
+  }
+  
+  .date_value {
+    background-color: white;
+    width: 280px;
+    text-align: center;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  tbody.details {
+    padding-left: 20px;
+    font-size: 21px;
+    row-gap: 20px;
+  }
+  
+  thead {
+    padding-left: 20px;
+    display: grid;
+    grid-template-columns: 90px 1fr 1fr 1fr 1fr;
+    font-weight: bold;
+    font-size: 21px;
+  }
+  
+  tbody.details > tr {
+    display: grid;
+    grid-template-columns: 90px 1fr 1fr 1fr 1fr;
+    height: 50px;
+    background-color: #ededed;
+  }
+  
+  tbody.details > tr > td {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 21px;
+  }
+  
+  tbody.details > tr > td:last-child {
+    font-weight: bold;
+    background-color: #333;
+    color: #ffcc00;
+    border-radius: 5px;
+  }
+  
+  .total_value {
+    display: grid;
+    grid-template-columns: 90px 1fr 1fr 1fr 1fr;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .status_column {
+    width: 70%;
+    text-align: center;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-weight: bold;
+  }

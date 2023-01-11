@@ -4,6 +4,7 @@ import { useOrders } from '../../context/Orders.context';
 import { useSession } from '../../context/Auth.context';
 import ProductTable from '../../components/ProductTable';
 import Header from '../../components/Header';
+import './index.css';
 
 function OrderDetails() {
   const { params: { id } } = useRouteMatch();
@@ -57,21 +58,45 @@ function OrderDetails() {
     await refresh();
   }
 
+  const renderStatusClassName = (status) => {
+    if (status === 'Pendente') {
+      return 'pendente';
+    }
+    if (status === 'Preparando') {
+      return 'preparando';
+    }
+    if (status === 'Entregue') {
+      return 'entregue';
+    }
+  };
+
   return (
     <>
       <Header />
       {loaded ? (
-        <main>
+        <main className="order_details__wrapper">
           <div>
             <h2>Detalhes do pedido</h2>
-            <section>
-              <div>
+            <section className="order_details">
+              <div className="table_row_header">
                 <p data-testid={ ORDER_TID }>{` PEDIDO ${myOrder.id}`}</p>
                 {role !== 'seller' && (
                   <p data-testid={ SEL_NAM_TID }>{`VENDEDOR: ${myOrder.seller.name}`}</p>
                 )}
-                <p data-testid={ DATE_TID }>{ `REALIZADO EM: ${myOrder.saleDate}` }</p>
-                <p data-testid={ SATUS_TID }>{myOrder.status}</p>
+                <p
+                  data-testid={ DATE_TID }
+                  className="date_value"
+                >
+                  { `REALIZADO EM: ${myOrder.saleDate}` }
+
+                </p>
+                <p
+                  data-testid={ SATUS_TID }
+                  className={ `status_column ${renderStatusClassName(myOrder.status)}` }
+                >
+                  {myOrder.status}
+
+                </p>
                 {role === 'customer' && (
                   <button
                     data-testid={ CUS_BTN_TID }
@@ -103,13 +128,24 @@ function OrderDetails() {
                   </>
                 )}
               </div>
-              <tbody>
+              <thead>
+                <th>Item</th>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+                <th>Valor Unitário</th>
+                <th>Sub-total</th>
+              </thead>
+              <tbody className="details">
                 {myOrder.products.map(
                   (p, i) => <ProductTable key={ p.id } product={ p } index={ i } />,
                 )}
               </tbody>
-              <div data-testid={ TOTAL_TID }>
-                {`Total: R$ ${myOrder.totalPrice}`}
+              <div className="total_value" data-testid={ TOTAL_TID }>
+                <div />
+                <div />
+                <div />
+                <div />
+                <div>{`Total: R$ ${myOrder.totalPrice}`}</div>
               </div>
             </section>
           </div>

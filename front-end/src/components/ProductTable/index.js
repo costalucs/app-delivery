@@ -15,6 +15,7 @@ function ProductTable({ product: { price, id, name, quantity }, index }) {
   return (
     <tr key={ id }>
       <td
+        className="item__text"
         data-testid={ `${role}_${page}__element-order-table-item-number-${index}` }
       >
         {index + 1}
@@ -30,11 +31,15 @@ function ProductTable({ product: { price, id, name, quantity }, index }) {
       <td
         data-testid={ `${role}_${page}__element-order-table-unit-price-${index}` }
       >
+        R$
+        {' '}
         {formatPrice(+price)}
       </td>
       <td
         data-testid={ `${role}_${page}__element-order-table-sub-total-${index}` }
       >
+        R$
+        {' '}
         {formatPrice(quantity * price)}
       </td>
       {pathname === '/customer/checkout' && (

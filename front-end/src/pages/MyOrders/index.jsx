@@ -3,6 +3,7 @@ import Header from '../../components/Header';
 import SaleCard from '../../components/OrderCard';
 import { useSession } from '../../context/Auth.context';
 import { useOrders } from '../../context/Orders.context';
+import './index.css';
 
 function MyOrders() {
   const { orders } = useOrders();
@@ -10,7 +11,7 @@ function MyOrders() {
   return (
     <>
       <Header />
-      <main>
+      <main className="orders_list__wrapper">
         {(session && session.user && session.user.id) && (orders.length
           ? orders.map((sale) => (
             <SaleCard

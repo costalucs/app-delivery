@@ -43,52 +43,63 @@ function FormCheckout() {
     }
   }
 
+  const renderOrderInfo = () => (
+    <div className="order_info__wrapper">
+      <label htmlFor="seller-select">
+        Vendedor
+        <select
+          id="seller-select"
+          name="sellerId"
+          data-testid="customer_checkout__select-seller"
+          onChange={ handleChange }
+        >
+          <option disabled selected value> -- select an option -- </option>
+          {sellers.map(({ id, name }) => (
+            <option key={ id } value={ id }>
+              {name}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label htmlFor="address-input">
+        Endereço
+        <input
+          type="text"
+          id="address-input"
+          name="deliveryAddress"
+          data-testid="customer_checkout__input-address"
+          onChange={ handleChange }
+        />
+      </label>
+      <label htmlFor="number-input">
+        Número
+        <input
+          type="number"
+          id="number-input"
+          name="deliveryNumber"
+          data-testid="customer_checkout__input-address-number"
+          onChange={ handleChange }
+        />
+      </label>
+    </div>
+  );
+
   return (
     <form action="">
       <div className="input-container-checkout">
-        <label htmlFor="seller-select">
-          Vendedor
-          <select
-            id="seller-select"
-            name="sellerId"
-            data-testid="customer_checkout__select-seller"
-            onChange={ handleChange }
+        {
+          renderOrderInfo()
+        }
+        <div className="send_order_button__container">
+          <button
+            type="button"
+            className="send_order_button"
+            onClick={ handleClick }
+            data-testid="customer_checkout__button-submit-order"
           >
-            <option disabled selected value> -- select an option -- </option>
-            {sellers.map(({ id, name }) => (
-              <option key={ id } value={ id }>
-                {name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label htmlFor="address-input">
-          Endereço
-          <input
-            type="text"
-            id="address-input"
-            name="deliveryAddress"
-            data-testid="customer_checkout__input-address"
-            onChange={ handleChange }
-          />
-        </label>
-        <label htmlFor="number-input">
-          Número
-          <input
-            type="number"
-            id="number-input"
-            name="deliveryNumber"
-            data-testid="customer_checkout__input-address-number"
-            onChange={ handleChange }
-          />
-        </label>
-        <button
-          type="button"
-          onClick={ handleClick }
-          data-testid="customer_checkout__button-submit-order"
-        >
-          Finalizar Pedido
-        </button>
+            Finalizar Pedido
+          </button>
+        </div>
       </div>
     </form>
   );

@@ -1,19 +1,55 @@
 .checkout-container {
-    display: flex;
-    flex-direction: column;
-    row-gap: 130px;
-    padding: 20px 30px 30px 20px;
-    background-color: #ededed;
-    width: 700px;
-    border-radius: 20px;
-    border: 2px solid #333;
-  }
-  
-  .checkout_card_list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    row-gap: 40px;
-    padding-top: 125px;
-    padding-bottom: 40px;
-  }
+  display: flex;
+  flex-direction: column;
+
+}
+
+.checkout_card_list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  row-gap: 40px;
+  padding-top: 125px;
+  padding-bottom: 40px;
+}
+
+.checkout__wrapper {
+  display: flex;
+  flex-direction: column;
+  padding-top: 145px;
+  padding-left: 80px;
+  padding-right: 80px;
+  row-gap: 40px;
+
+}
+
+tbody {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+tr {
+  display: grid;
+  grid-template-columns: 90px 1fr 167px 165px 165px 238px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.item__text {
+  color: #ffcc00;
+  font-weight: bold;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.total_price__info {
+  font-weight: bold;
+  font-size: 22px;
+  text-align: end;
+  padding-right: 40px;
+  padding-top: 10px;
+}
